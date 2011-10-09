@@ -20,7 +20,7 @@ public class Utils {
 		return null;
 	}
 	
-	public static BufferedReader getBufferedReader(String fileName) {
+	public static BufferedReader getBufferedReader(String fileName) throws FileNotFoundException {
 		File file = new File(fileName);
 		if (!file.exists()) {
 			System.out.println("File: " + fileName + " not found!");
@@ -30,7 +30,8 @@ public class Utils {
 			return new BufferedReader(new FileReader(file));
 		} catch (FileNotFoundException e) {
 			System.out.println("File: " + fileName + " not found!");
+			throw e;
 		}
-		return null;
+		
 	}
 }
