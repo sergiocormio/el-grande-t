@@ -44,5 +44,9 @@ public class ResultantTeam implements Fileable, Serializable{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public void addPlayer(Player player){
+		this.players.add(player);
+	}
 
 }

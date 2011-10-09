@@ -25,6 +25,7 @@ public class LPSolveTest {
 			}
 		    solver.strAddConstraint(budgetConstraint, LpSolve.LE, 20);
 		      
+		    
 		
 		    
 		    // add line up constraint i.e: 4-4-2
