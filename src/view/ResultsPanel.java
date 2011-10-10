@@ -37,8 +37,6 @@ public class ResultsPanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		addToolBar();
 		addSoccerFieldPanel();
-		//TODO: Remove this line:
-		soccerFieldPanel.setTeamToDisplay(GrandeTServiceMock.getTeamMock());
 		addStatisticsPanel();
 	}
 
