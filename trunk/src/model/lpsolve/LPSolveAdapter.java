@@ -160,12 +160,14 @@ public class LPSolveAdapter{
 		statisticalInformation.setUserInputData(userInputData);
 		
 		String totalProfit = String.valueOf(solver.getObjective());
-		statisticalInformation.setTotalProfit(Integer.valueOf(totalProfit));
+		statisticalInformation.setTotalProfit(Integer.valueOf(totalProfit.split("\\.")[0]).intValue());
 		
 		statisticalInformation.setFinalCost(finalCost);
 		
-		String elapsedTime = String.valueOf(solver.timeElapsed());
-		statisticalInformation.setTime(Integer.valueOf(elapsedTime).intValue());
+		double time = solver.timeElapsed();
+		time *= 1000;
+		String elapsedTime = String.valueOf(time);
+		statisticalInformation.setTime(Integer.valueOf(elapsedTime.split("\\.")[0]).intValue());
 		
 		return statisticalInformation;
 	}
