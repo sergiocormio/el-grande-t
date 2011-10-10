@@ -7,7 +7,12 @@ import java.io.FileReader;
 import java.io.PrintWriter;
 
 public class Utils {
-	public static String FIELD_SEPARATOR = "[||]"; 
+	
+	public static final String FIELD_SEPARATOR = "[||]";
+	
+	public static final String MSG_FILE_BAD_FORMED_EXCEPTION = "Archivo mal formado";
+	public static final String MSG_INVALID_MODEL_EXCEPTION = "Modelo inválido";
+	
 	
 	public static PrintWriter getPrintWriter(String fileName) {
 		File file = new File(fileName);
