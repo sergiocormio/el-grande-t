@@ -4,6 +4,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTabbedPane;
 
 public class ElGrandeT {
 	private JFrame jf;
@@ -22,6 +24,13 @@ public class ElGrandeT {
 				System.exit(0);
 			}
 		});
+		JTabbedPane tabPanel = new JTabbedPane();
+		//TODO: Add icon
+		tabPanel.addTab("Armar Equipo", null, new ArmTeamPanel(), "I'm sergio");
+		tabPanel.addTab("Resultados", null, new JLabel("HOLA"), "I'm sergio");
+		tabPanel.addTab("Comparar", null, new JLabel("HOLA"), "I'm sergio");
+		tabPanel.addTab("Base de Datos", null, new JLabel("HOLA"), "I'm sergio");
+		jf.add(tabPanel);
 	}
 	
 	/**
