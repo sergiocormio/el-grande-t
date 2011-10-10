@@ -125,13 +125,10 @@ public class PlayersLoader {
 	
 	
 	private static Player createPlayer(String[] fields, String[] headerFields) {
-		Player player = new Player();
 		
-		player.setName(fields[0]);
-		player.setPosition(Position.valueOf(fields[1]));
-		
-		player.setPrice(new Long(fields[2]).longValue());
-		
+		Player player = new Player(fields[0], Position.valueOf(fields[1]), 
+				new Long(fields[2]).longValue());
+				
 		//adding skills
 		for (int i = 3; i < fields.length; i++) {
 			Skill skill = new Skill();

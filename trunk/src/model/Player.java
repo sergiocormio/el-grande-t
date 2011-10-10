@@ -8,12 +8,16 @@ public class Player implements Serializable{
 	public enum Position{ARQ, DEF, VOL, DEL}
 
 	private String name;
-	private long price;
 	private Position position;
+	private long price;
+	
 	private Map<String, Skill> skills;
 	
-	public Player(){
+	public Player(String name, Position position, long price){
 		skills = new HashMap<String, Skill>();
+		this.name = name;
+		this.position = position;
+		this.price = price;
 	}
 
 	public void addSkill(Skill skill){
