@@ -1,17 +1,19 @@
 package model;
 
 import java.util.List;
+import java.io.IOException;
+import model.exceptions.FileBadFormedException;
+import model.exceptions.InvalidModelException;
 
 public interface IGrandeTService {
 	public static String[] FORMATION_LIST = { "4-4-2","4-3-3","4-2-4","5-3-2"};
 	public static int DEFAULT_BUDGET = 60000000;
 	public static int DEFAULT_NUMBER_OF_PLAYERS = 11;
-	
 	/**
 	* generates the optimized team according to the user selection
 	*
 	*/
-	public ResultantTeam armTeam(UserInputData userInputData) throws Exception;
+	public ResultantTeam armTeam(UserInputData userInputData) throws FileBadFormedException, IOException, InvalidModelException ;
 	
 	/**
 	* Retrieves a resultant opmitized team already saved

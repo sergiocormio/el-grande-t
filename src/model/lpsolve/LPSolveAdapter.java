@@ -10,10 +10,11 @@ import model.Skill;
 import model.StatisticalInformation;
 import model.UserInputData;
 import model.Player.Position;
+import model.exceptions.InvalidModelException;
 
 public class LPSolveAdapter{
 
-	public static ResultantTeam runModel(UserInputData userInputData, List<Player> playersDataBase) {
+	public static ResultantTeam runModel(UserInputData userInputData, List<Player> playersDataBase) throws InvalidModelException {
 		
 		try {
 			// Create a problem with N variables and initially, 0 constraints
@@ -32,7 +33,7 @@ public class LPSolveAdapter{
 		    solver.strAddConstraint(budgetConstraint, LpSolve.LE, userInputData.getBudget());
 		   
 		    // add formation constraints
-		    solver = addFormationConstraint(solver, playersDataBase, userInputData.getFormation());
+		    solver = addFormationConstraint(solver, playersDataBase, userInputData);
 		    		    
 		    // set objective function (MAX some skill)
 		    String objFunction = "";
@@ -55,35 +56,59 @@ public class LPSolveAdapter{
 				    
 		} catch (LpSolveException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new InvalidModelException();
 		}
-	    
 	   
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	
-	private static LpSolve addFormationConstraint(LpSolve solver, List<Player> playersDataBase, String formation) throws NumberFormatException, LpSolveException {
+	private static LpSolve addFormationConstraint(LpSolve solver, List<Player> playersDataBase, UserInputData userInputData) throws NumberFormatException, LpSolveException {
 		
+		String formation = userInputData.getFormation();
+		int numberOfPlayers = userInputData.getNumberOfPlayers();
+		
+		
+		double maxGoalKeepers = 1;
+		// if the number of players is 15 or 22 it is the same to add one player than to duplicate that quantity
+		if(numberOfPlayers != 11)
+			maxGoalKeepers = 2;
 		// add line-up constraint - goalkeppers
-		solver = addFormationConstraint(solver, playersDataBase, Position.ARQ, 1);
+		solver = addFormationConstraint(solver, playersDataBase, Position.ARQ, maxGoalKeepers);
 		
-		String maxDefenders = formation.split("-")[0];
-		String maxMidFielders = formation.split("-")[1];
-		String maxForwards = formation.split("-")[2];
+		String strMaxDefenders = formation.split("-")[0];
+		double maxDefenders = getMaxPerPosition(strMaxDefenders, numberOfPlayers);
+		
+		String strMaxMidFielders = formation.split("-")[1];
+		double maxMidFielders = getMaxPerPosition(strMaxMidFielders, numberOfPlayers);
+		
+		String strMaxForwards = formation.split("-")[2];
+		double maxForwards = getMaxPerPosition(strMaxForwards, numberOfPlayers);
 		
 		// add line-up constraint - defenders
-		solver = addFormationConstraint(solver, playersDataBase, Position.DEF, Double.valueOf(maxDefenders));
+		solver = addFormationConstraint(solver, playersDataBase, Position.DEF, maxDefenders);
 		
 		// add line-up constraint - midfielders
-		solver = addFormationConstraint(solver, playersDataBase, Position.VOL, Double.valueOf(maxMidFielders));
+		solver = addFormationConstraint(solver, playersDataBase, Position.VOL, maxMidFielders);
 		
 		// add line-up constraint - forwards
-		solver = addFormationConstraint(solver, playersDataBase, Position.DEL, Double.valueOf(maxForwards));
+		solver = addFormationConstraint(solver, playersDataBase, Position.DEL, maxForwards);
 		
 		return solver;
 	}
+
+	
+	private static double getMaxPerPosition(String strMaxPlayersPerPosition, int numberOfPlayers) {
+		
+		double maxPlayersPerPosition = Double.valueOf(strMaxPlayersPerPosition);
+		
+		if(numberOfPlayers == 15)
+			maxPlayersPerPosition ++;
+		else if(numberOfPlayers == 22)
+			maxPlayersPerPosition *= 2;
+		
+		return maxPlayersPerPosition;
+	}
+
 
 	private static LpSolve addFormationConstraint(LpSolve solver, List<Player> playersDataBase, Position position, double maxPlayersByPosition) throws LpSolveException {
 
@@ -120,8 +145,6 @@ public class LPSolveAdapter{
 		StatisticalInformation statisticalInformation = createStatiticalInformation(solver, userInputData, finalCost);
 		resultantTeam.setStatisticalInformation(statisticalInformation);
 				
-		//resultantTeam.saveToFile();
-
 	    // delete the problem and free memory
 	    solver.deleteLp();
 	    
@@ -141,7 +164,8 @@ public class LPSolveAdapter{
 		
 		statisticalInformation.setFinalCost(finalCost);
 		
-		statisticalInformation.setTime(0);
+		String elapsedTime = String.valueOf(solver.timeElapsed());
+		statisticalInformation.setTime(Integer.valueOf(elapsedTime).intValue());
 		
 		return statisticalInformation;
 	}

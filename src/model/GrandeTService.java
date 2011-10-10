@@ -1,27 +1,22 @@
 package model;
 
+import java.io.IOException;
 import java.util.List;
 
+import model.exceptions.FileBadFormedException;
+import model.exceptions.InvalidModelException;
 import model.lpsolve.LPSolveAdapter;
 
 public class GrandeTService implements IGrandeTService{
 
 	@Override
-	public ResultantTeam armTeam(UserInputData userInputData) throws Exception {
+	public ResultantTeam armTeam(UserInputData userInputData) throws FileBadFormedException, IOException, InvalidModelException {
 		
-		try{
-			// loads and validate file format
-			List<Player> playersDataBase = PlayersLoader.loadDataBase(userInputData.getDbFileName());
-			
-			ResultantTeam resultantTeam = LPSolveAdapter.runModel(userInputData, playersDataBase);
-			return resultantTeam;
-		}
-		catch (Exception e) {
-			throw e;
-		}
+		// loads and validate file format
+		List<Player> playersDataBase = PlayersLoader.loadDataBase(userInputData.getDbFileName());
 		
-		
-		
+		ResultantTeam resultantTeam = LPSolveAdapter.runModel(userInputData, playersDataBase);
+		return resultantTeam;
 		
 	}
 
