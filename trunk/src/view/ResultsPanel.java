@@ -24,13 +24,20 @@ public class ResultsPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private ResultantTeam currentTeam;
 	private JTextField fileNameTextField;
 	private JFileChooser fileChooser;
+	private JButton saveButton; 
 	private SoccerFieldPanel soccerFieldPanel;
 	private StatisticsPanel statisticsPanel;
 
 	public ResultsPanel(){
 		generatePanel();
+	}
+	
+	public void setResultantTeam(ResultantTeam team){
+		currentTeam=team;
+		loadCurrentTeam();
 	}
 
 	private void generatePanel() {
@@ -60,17 +67,36 @@ public class ResultsPanel extends JPanel {
 					File file = fileChooser.getSelectedFile();
 					fileNameTextField.setText(file.getPath());
 					try{
-						ResultantTeam team = ElGrandeT.getGrandeTService().retrieveSavedTeam(fileNameTextField.getText());
-						soccerFieldPanel.setTeamToDisplay(team.getPlayers());
-						statisticsPanel.setStatisticalInformation(team.getStatisticalInformation());
+						currentTeam = ElGrandeT.getGrandeTService().retrieveSavedTeam(fileNameTextField.getText());
+						loadCurrentTeam();
 					}catch (Exception e){
-						
+						//TODO: check exception
 					}
 				}
 			}
 		});
 		toolBarPanel.add(openButton);
-		toolBarPanel.add(new JButton("Guardar"));
+		
+		saveButton = new JButton("Guardar");
+		saveButton.setEnabled(false);
+		saveButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// Open a dialog and choose an actionObject File!
+				int retVal = fileChooser.showSaveDialog(fileNameTextField);
+				if(retVal == JFileChooser.APPROVE_OPTION){
+					File file = fileChooser.getSelectedFile();
+					fileNameTextField.setText(file.getPath());
+					try{
+						currentTeam.saveToFile(fileNameTextField.getText());
+					}catch (Exception e){
+						//TODO: check exception
+					}
+				}
+			}
+		});
+		toolBarPanel.add(saveButton);
 		fileNameTextField = new JTextField(25);
 		fileNameTextField.setText("Elige un archivo de Resultados...");
 		//It is read only
@@ -84,4 +110,9 @@ public class ResultsPanel extends JPanel {
 		this.add(soccerFieldPanel,BorderLayout.CENTER);
 	}
 
+	private void loadCurrentTeam(){
+		soccerFieldPanel.setTeamToDisplay(currentTeam.getPlayers());
+		statisticsPanel.setStatisticalInformation(currentTeam.getStatisticalInformation());
+		saveButton.setEnabled(true);
+	}
 }
