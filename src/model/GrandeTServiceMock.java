@@ -1,27 +1,19 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import model.lpsolve.LPSolveAdapter;
-
-public class GrandeTService implements IGrandeTService{
+/**
+ * 
+ * @author sergiocormio
+ * This Class is just for testing purpose.
+ */
+public class GrandeTServiceMock implements IGrandeTService {
 
 	@Override
 	public ResultantTeam armTeam(UserInputData userInputData) throws Exception {
 		
-		try{
-			// loads and validate file format
-			List<Player> playersDataBase = PlayersLoader.loadDataBase(userInputData.getDbFileName());
-			
-			ResultantTeam resultantTeam = LPSolveAdapter.runModel(userInputData, playersDataBase);
-			return resultantTeam;
-		}
-		catch (Exception e) {
-			throw e;
-		}
-		
-		
-		
+		return null;
 		
 	}
 
@@ -41,10 +33,13 @@ public class GrandeTService implements IGrandeTService{
 	@Override
 	public List<String> getSkillsFromPlayersDBFile(String dataBaseFileName)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<String> resultList = new ArrayList<String>();
+		resultList.add("Ataque");
+		resultList.add("Puntos de la fecha pasada");
+		resultList.add("Defensa");
+		return resultList;
 	}
 	
 	
-	
+
 }

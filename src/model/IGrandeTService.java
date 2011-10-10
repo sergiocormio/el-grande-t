@@ -1,6 +1,12 @@
 package model;
 
+import java.util.List;
+
 public interface IGrandeTService {
+	public static String[] FORMATION_LIST = { "4-4-2","4-3-3","4-2-4","5-3-2"};
+	public static int DEFAULT_BUDGET = 60000000;
+	public static int DEFAULT_NUMBER_OF_PLAYERS = 11;
+	
 	/**
 	* generates the optimized team according to the user selection
 	*
@@ -19,4 +25,10 @@ public interface IGrandeTService {
 	*
 	*/
 	public PlayersDataBase loadPlayersDataBase(String dataBaseFileName);
+	
+	/**
+	 * Returns a list of skill names from a Players Database file name.
+	 * 
+	 */
+	public List<String> getSkillsFromPlayersDBFile(String dataBaseFileName) throws Exception;
 }
