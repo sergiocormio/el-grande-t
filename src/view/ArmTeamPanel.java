@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Event;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,8 +27,6 @@ public class ArmTeamPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
 	
 	private JTextField dataFileNameTextField;
 	private JFileChooser fileChooser;
@@ -62,7 +59,7 @@ public class ArmTeamPanel extends JPanel {
 		//dataFileNameTextField is read only
 		dataFileNameTextField.setEditable(false);
 		dataPanel.add(dataFileNameTextField);
-		JButton openButton = new JButton("Open");
+		JButton openButton = new JButton("Abrir");
 		fileChooser = new JFileChooser();
 		openButton.addActionListener(new ActionListener(){
 
