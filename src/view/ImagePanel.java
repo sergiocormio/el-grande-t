@@ -5,7 +5,6 @@ import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class ImagePanel extends JPanel {
@@ -27,12 +26,10 @@ public class ImagePanel extends JPanel {
 	    setMinimumSize(size);
 	    setMaximumSize(size);
 	    setSize(size);
-	    //setLayout(null);
 	  }
 
 	  @Override
 	  public void paintComponent(Graphics g) {
-	  //  g.drawImage(img, 0, 0, null);
 	    g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 	  }
 

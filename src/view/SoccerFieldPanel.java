@@ -11,7 +11,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.Player;
-import model.Player.Position;
 
 public class SoccerFieldPanel extends JPanel {
 
@@ -19,7 +18,6 @@ public class SoccerFieldPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 4806291985250181830L;
-	private List<Player> currentTeam;
 	private JPanel arqPanel;
 	private JPanel defPanel;
 	private JPanel volPanel;
@@ -31,7 +29,8 @@ public class SoccerFieldPanel extends JPanel {
 	}
 	
 	public void setTeamToDisplay(List<Player> team){
-		this.currentTeam = team;
+		//clean all Labels first
+		cleanAllLabels();
 		for(Player p : team){
 			JLabel label = new JLabel(p.getName());
 			label.setToolTipText("Precio: $" + p.getPrice());
@@ -56,8 +55,15 @@ public class SoccerFieldPanel extends JPanel {
 		}
 	}
 	
+	private void cleanAllLabels() {
+		arqPanel.removeAll();
+		defPanel.removeAll();
+		volPanel.removeAll();
+		delPanel.removeAll();
+	}
+
 	private void generatePanel(){
-		//generates imagePanel with a soccerfield as background image.
+		//generates imagePanel with a soccer field as background image.
 	    ImagePanel imagePanel = new ImagePanel(new ImageIcon("src/resources/Cancha.jpg").getImage());
 	    imagePanel.setLayout(new BorderLayout());
 	    
