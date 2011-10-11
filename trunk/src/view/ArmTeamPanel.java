@@ -4,6 +4,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.EventListener;
+import java.util.EventObject;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -35,6 +37,9 @@ public class ArmTeamPanel extends JPanel {
 	private JSpinner budgetSpinner;
 	private JSpinner numberOfPlayersSpinner;
 	private JButton armTeamButton;
+	
+    // Create the listener list
+    protected javax.swing.event.EventListenerList listenerList = new javax.swing.event.EventListenerList();
 	
 	public ArmTeamPanel(){
 		generatePanel();
@@ -151,7 +156,8 @@ public class ArmTeamPanel extends JPanel {
 					userInputData.setNumberOfPlayers(nm.getNumber().intValue());
 					userInputData.setSkillToMax((String)skillToMaxCombo.getSelectedItem());
 					ResultantTeam resultantTeam = ElGrandeT.getGrandeTService().armTeam(userInputData);
-					//TODO: Dispatch an event with the resultantTeam
+					//Dispatches an event with the resultantTeam
+					fireMyEvent(new NewTeamCreatedEvent(this,resultantTeam));
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
@@ -160,4 +166,51 @@ public class ArmTeamPanel extends JPanel {
 		});
 		this.add(armTeamButton);
 	}
+	
+	// Declare the event. It must extend EventObject.
+	public class NewTeamCreatedEvent extends EventObject {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = -6008270570472295875L;
+		private ResultantTeam newTeam;
+	    public NewTeamCreatedEvent(Object source,ResultantTeam team) {
+	        super(source);
+	        newTeam = team;
+	    }
+	    public ResultantTeam getNewTeamCreated(){
+	    	return newTeam;
+	    }
+	}
+
+	// Declare the listener class. It must extend EventListener.
+	// A class must implement this interface to get MyEvents.
+	public interface NewTeamCreatedEventListener extends EventListener {
+	    public void newTeamCreated(NewTeamCreatedEvent evt);
+	}
+
+	// Add the event registration and notification code to a class.
+
+    // This methods allows classes to register for MyEvents
+    public void addMyEventListener(NewTeamCreatedEventListener listener) {
+        listenerList.add(NewTeamCreatedEventListener.class, listener);
+    }
+
+    // This methods allows classes to unregister for MyEvents
+    public void removeMyEventListener(NewTeamCreatedEventListener listener) {
+        listenerList.remove(NewTeamCreatedEventListener.class, listener);
+    }
+
+    // This private class is used to fire MyEvents
+    void fireMyEvent(NewTeamCreatedEvent evt) {
+        Object[] listeners = listenerList.getListenerList();
+        // Each listener occupies two elements - the first is the listener class
+        // and the second is the listener instance
+        for (int i=0; i<listeners.length; i+=2) {
+            if (listeners[i]==NewTeamCreatedEventListener.class) {
+                ((NewTeamCreatedEventListener)listeners[i+1]).newTeamCreated(evt);
+            }
+        }
+    }
+	
 }

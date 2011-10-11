@@ -17,7 +17,7 @@ public class GrandeTServiceMock implements IGrandeTService {
 	@Override
 	public ResultantTeam armTeam(UserInputData userInputData) throws  FileBadFormedException, IOException, InvalidModelException{
 		
-		return null;
+		return retrieveSavedTeam(null);
 		
 	}
 
