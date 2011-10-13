@@ -1,7 +1,6 @@
 package model;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,8 +35,29 @@ public class PlayersLoader {
 	}
 	
 	
+	public static List<String> loadHeaders(BufferedReader bufferedReader) throws FileBadFormedException, IOException {
+		
+		String[] arrHeaderFields = processHeader(bufferedReader);
+		
+		List<String> headerFields = new ArrayList<String>();
+		for (String header : arrHeaderFields) {
+			headerFields.add(header);
+		}
+		
+		return headerFields;
+	}
 	
 
+	public static List<Player> loadData(List<String> headers, BufferedReader bufferedReader) throws IOException {
+		
+		String[] arrHeaderFields = headers.toArray(new String[0]);
+		
+		List<Player> playersDataBase = processData(bufferedReader, arrHeaderFields);
+		
+		return playersDataBase;
+	}
+	
+	
 
 	private static String[] processHeader(BufferedReader bufferedReader) throws IOException, FileBadFormedException {
 		
@@ -180,5 +200,7 @@ public class PlayersLoader {
 	
 		return filteredCollection;
 	}
+
+
 	
 }

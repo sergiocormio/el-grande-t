@@ -9,11 +9,14 @@ public interface IGrandeTService {
 	public static String[] FORMATION_LIST = { "4-4-2","4-3-3","4-2-4","5-3-2"};
 	public static int DEFAULT_BUDGET = 60000000;
 	public static int DEFAULT_NUMBER_OF_PLAYERS = 11;
+	
+	
 	/**
 	* generates the optimized team according to the user selection
 	*
 	*/
 	public ResultantTeam armTeam(UserInputData userInputData) throws FileBadFormedException, IOException, InvalidModelException ;
+	
 	
 	/**
 	* Retrieves a resultant opmitized team already saved
@@ -22,15 +25,32 @@ public interface IGrandeTService {
 	*/
 	public ResultantTeam retrieveSavedTeam(String resultFileName);
 	
+	
 	/**
 	* Loads a file  (for ABM purpose)
 	*
 	*/
-	public PlayersDataBase loadPlayersDataBase(String dataBaseFileName);
+	public PlayersDataBase loadPlayersDataBase(String dataBaseFileName) throws FileBadFormedException, IOException;
 	
+	
+	
+	/* 
 	/**
 	 * Returns a list of skill names from a Players Database file name.
 	 * 
+	 * USE: loadPlayersDataBase
+	 * 
 	 */
 	public List<String> getSkillsFromPlayersDBFile(String dataBaseFileName) throws Exception;
+	
+	
+	
+	/**
+	 * saves a resultant team in the file system
+	 * 
+	 * @param resultantTeam
+	 * @param fileName
+	 */
+	public void saveResultantTeam(ResultantTeam resultantTeam, String fileName);
+	
 }
