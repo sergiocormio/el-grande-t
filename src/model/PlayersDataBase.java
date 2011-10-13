@@ -10,9 +10,17 @@ public class PlayersDataBase implements Fileable, Serializable {
 
 	private File file;
 	private List<Player> players;
+	private List<String> skills;
+	
 	
 	public PlayersDataBase(){
 		players = new ArrayList<Player>();
+	}
+	
+	public PlayersDataBase(List<String> skills, List<Player> players, File file){
+		this.skills = skills;
+		this.players = players;
+		this.file = file;
 	}
 	
 	public List<String> getSkillList(){
@@ -66,4 +74,10 @@ public class PlayersDataBase implements Fileable, Serializable {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public List<String> getSkills() {
+		return skills;
+	}
+	
+	
 }
