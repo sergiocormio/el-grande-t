@@ -1,4 +1,6 @@
-package model;
+package model.dto;
+
+import model.Serializable;
 
 public class UserInputData implements Serializable {
 	private String dbFileName;

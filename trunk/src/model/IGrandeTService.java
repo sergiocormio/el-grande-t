@@ -3,6 +3,10 @@ package model;
 import java.util.List;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
+import model.dto.PlayersDataBase;
+import model.dto.ResultantTeam;
+import model.dto.UserInputData;
 import model.exceptions.FileBadFormedException;
 import model.exceptions.InvalidModelException;
 

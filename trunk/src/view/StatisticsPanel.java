@@ -7,7 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-import model.StatisticalInformation;
+import model.dto.StatisticalInformation;
 
 public class StatisticsPanel extends JPanel {
 

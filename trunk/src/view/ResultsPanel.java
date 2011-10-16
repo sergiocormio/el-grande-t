@@ -11,7 +11,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import model.ResultantTeam;
+import model.dto.ResultantTeam;
 
 public class ResultsPanel extends JPanel {
 

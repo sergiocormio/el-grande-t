@@ -1,4 +1,4 @@
-package model;
+package model.loaders;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,7 +6,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import model.Player.Position;
+import model.Utils;
+import model.dto.StatisticalInformation;
+import model.dto.UserInputData;
+import model.dto.Player.Position;
 import model.exceptions.FileBadFormedException;
 import model.exceptions.InvalidPlayerPositionException;
 import model.validators.FileValidator;

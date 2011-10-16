@@ -20,8 +20,8 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
 import model.IGrandeTService;
-import model.ResultantTeam;
-import model.UserInputData;
+import model.dto.ResultantTeam;
+import model.dto.UserInputData;
 
 public class ArmTeamPanel extends JPanel {
 

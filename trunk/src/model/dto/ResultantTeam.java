@@ -1,8 +1,11 @@
-package model;
+package model.dto;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import model.Fileable;
+import model.Serializable;
 
 public class ResultantTeam implements Fileable, Serializable{
 

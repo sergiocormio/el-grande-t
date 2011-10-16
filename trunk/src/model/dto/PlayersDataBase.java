@@ -1,10 +1,13 @@
-package model;
+package model.dto;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import model.Fileable;
+import model.Serializable;
 
 public class PlayersDataBase implements Fileable, Serializable {
 
