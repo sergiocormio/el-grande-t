@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
-import model.Player;
-import model.ResultantTeam;
-import model.Skill;
-import model.StatisticalInformation;
-import model.UserInputData;
-import model.Player.Position;
+import model.dto.Player;
+import model.dto.ResultantTeam;
+import model.dto.Skill;
+import model.dto.StatisticalInformation;
+import model.dto.UserInputData;
+import model.dto.Player.Position;
 import model.exceptions.InvalidModelException;
 import model.lpsolve.LPSolveAdapter;
 

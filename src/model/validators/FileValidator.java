@@ -1,7 +1,7 @@
 package model.validators;
 
 import model.Utils;
-import model.Player.Position;
+import model.dto.Player.Position;
 import model.exceptions.FileBadFormedException;
 import model.exceptions.InvalidPlayerPositionException;
 

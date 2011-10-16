@@ -1,7 +1,9 @@
-package model;
+package model.dto;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import model.Serializable;
 
 
 public class Player implements Serializable{

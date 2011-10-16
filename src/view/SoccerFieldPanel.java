@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import model.Player;
+import model.dto.Player;
 
 public class SoccerFieldPanel extends JPanel {
 

@@ -4,12 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 
-import model.Player;
-import model.PlayersLoader;
-import model.StatisticalInformation;
-import model.StatsInformationLoader;
 import model.Utils;
+import model.dto.Player;
+import model.dto.StatisticalInformation;
 import model.exceptions.FileBadFormedException;
+import model.loaders.PlayersLoader;
+import model.loaders.StatsInformationLoader;
 import junit.framework.TestCase;
 
 public class TestFileLoader extends TestCase{
