@@ -74,7 +74,7 @@ public class PlayersLoader {
 
 	private static String[] validateHeader(String line) throws FileBadFormedException {
 		
-		String[] fields = line.split(Utils.FIELD_SEPARATOR);
+		String[] fields = line.split(Utils.FIELD_SEPARATOR_REGEXP);
 		
 		FileValidator.validateMandatoryColumns(fields);
 		
@@ -114,7 +114,7 @@ public class PlayersLoader {
 
 	private static Player createPlayer(String line, String[] headerFields) {
 				
-		String[] fields = line.split(Utils.FIELD_SEPARATOR);
+		String[] fields = line.split(Utils.FIELD_SEPARATOR_REGEXP);
 		
 		try {
 			FileValidator.validateMandatoryColumns(fields);

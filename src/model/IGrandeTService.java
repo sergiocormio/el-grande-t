@@ -1,6 +1,7 @@
 package model;
 
 import java.util.List;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import model.exceptions.FileBadFormedException;
 import model.exceptions.InvalidModelException;
@@ -23,7 +24,7 @@ public interface IGrandeTService {
 	* This can be used for both Resultados and Comparar use cases
 	*
 	*/
-	public ResultantTeam retrieveSavedTeam(String resultFileName);
+	public ResultantTeam retrieveSavedTeam(String resultFileName)throws FileBadFormedException, IOException;
 	
 	
 	/**
