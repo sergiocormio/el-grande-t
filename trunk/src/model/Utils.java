@@ -9,9 +9,11 @@ import java.io.PrintWriter;
 public class Utils {
 	
 	public static final String FIELD_SEPARATOR = "[||]";
+	public static final String FIELD_SEPARATOR_REGEXP = "\\[\\|\\|\\]";
 	
-	public static final String MSG_FILE_BAD_FORMED_EXCEPTION = "Archivo mal formado";
-	public static final String MSG_INVALID_MODEL_EXCEPTION = "Modelo inválido";
+	public static final String EXP_FILE_BAD_FORMED_MANDATORY = "Archivo mal formado - Faltan datos mandatorios";
+	public static final String EXP_FILE_BAD_FORMED_STAT = "Archivo mal formado - Problema en datos estadisticos";
+	public static final String EXP_INVALID_MODEL = "Modelo inválido";
 	
 	
 	public static PrintWriter getPrintWriter(String fileName) {

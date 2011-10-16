@@ -14,6 +14,12 @@ public class ResultantTeam implements Fileable, Serializable{
 		players = new ArrayList<Player>();
 	}
 	
+	public ResultantTeam(File file, List<Player> players, StatisticalInformation information){
+		this.file = file;
+		this.players = players;
+		this.statisticalInformation = information;
+	}
+	
 	public StatisticalInformation getStatisticalInformation() {
 		return statisticalInformation;
 	}

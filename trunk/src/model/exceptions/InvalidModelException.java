@@ -13,7 +13,7 @@ public class InvalidModelException extends Exception {
 	@Override
 	public String getMessage() {
 		// TODO Auto-generated method stub
-		return Utils.MSG_INVALID_MODEL_EXCEPTION;
+		return Utils.EXP_INVALID_MODEL;
 	}
 	
 }

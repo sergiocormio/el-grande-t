@@ -25,7 +25,6 @@ public class GrandeTService implements IGrandeTService{
 	@Override
 	public PlayersDataBase loadPlayersDataBase(String dataBaseFileName) throws FileBadFormedException, IOException {
 		
-		// loads and validate file format
 		BufferedReader bufferedReader = Utils.getBufferedReader(dataBaseFileName);
 		List<String> headers = PlayersLoader.loadHeaders(bufferedReader);
 		List<Player> playersDataBase = PlayersLoader.loadData(headers, bufferedReader);
@@ -35,9 +34,14 @@ public class GrandeTService implements IGrandeTService{
 	}
 
 	@Override
-	public ResultantTeam retrieveSavedTeam(String resultFileName) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResultantTeam retrieveSavedTeam(String resultFileName) throws FileBadFormedException, IOException {
+		
+		BufferedReader bufferedReader = Utils.getBufferedReader(resultFileName);
+		StatisticalInformation information = StatsInformationLoader.load(bufferedReader);
+		List<String> headers = PlayersLoader.loadHeaders(bufferedReader);
+		List<Player> players = PlayersLoader.loadData(headers, bufferedReader);
+		
+		return new ResultantTeam(new File(resultFileName), players, information);
 	}
 
 	@Override

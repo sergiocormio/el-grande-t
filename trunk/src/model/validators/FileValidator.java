@@ -1,5 +1,6 @@
 package model.validators;
 
+import model.Utils;
 import model.Player.Position;
 import model.exceptions.FileBadFormedException;
 import model.exceptions.InvalidPlayerPositionException;
@@ -15,7 +16,7 @@ public class FileValidator {
 	public static void validateMandatoryColumns(String[] fields) throws FileBadFormedException {
 		
 		if(fields.length < 3){
-			throw new FileBadFormedException();
+			throw new FileBadFormedException(Utils.EXP_FILE_BAD_FORMED_MANDATORY);
 		}
 	}
 	
