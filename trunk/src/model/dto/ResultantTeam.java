@@ -1,11 +1,13 @@
 package model.dto;
 
 import java.io.File;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import model.Fileable;
 import model.Serializable;
+import model.Utils;
 
 public class ResultantTeam implements Fileable, Serializable{
 
@@ -38,15 +40,71 @@ public class ResultantTeam implements Fileable, Serializable{
 
 	@Override
 	public void saveToFile(String fileName) {
-		// TODO Auto-generated method stub
 		
+		PrintWriter writer = Utils.getPrintWriter(fileName);
+		
+		String statsLine = createStatsLine();
+		writer.println(statsLine);
+		
+		String headerLine = createHeaderLine();
+		writer.println(headerLine);
+		
+		for (Player player : this.players) {
+			
+			String playerLine = createPlayerLine(player);
+			writer.println(playerLine);
+		}
 	}
 
 	@Override
 	public void saveToFile() {
-		// TODO Auto-generated method stub
 		
+		saveToFile(this.file.getAbsolutePath());		
 	}
+	
+	
+	private String createStatsLine() {
+		String statsLine = null;
+		
+		statsLine += statisticalInformation.getTotalProfit();
+		statsLine += Utils.FIELD_SEPARATOR;
+		statsLine += statisticalInformation.getTime();
+		statsLine += Utils.FIELD_SEPARATOR;
+		statsLine += statisticalInformation.getFinalCost();
+		statsLine += Utils.FIELD_SEPARATOR;
+		
+		statsLine += createUserInputDataLineFields(statsLine, statisticalInformation.getUserInputData());
+		
+		return statsLine;
+	}
+	
+	
+	private String createUserInputDataLineFields(String statsLine, UserInputData userInputData) {
+
+		statsLine += userInputData.getDbFileName();
+		statsLine += Utils.FIELD_SEPARATOR;
+		statsLine += userInputData.getBudget();
+		statsLine += Utils.FIELD_SEPARATOR;
+		statsLine += userInputData.getSkillToMax();
+		statsLine += Utils.FIELD_SEPARATOR;
+		statsLine += userInputData.getFormation();
+		statsLine += Utils.FIELD_SEPARATOR;
+		statsLine += userInputData.getNumberOfPlayers();
+		statsLine += Utils.FIELD_SEPARATOR;
+		
+		return statsLine;
+	}
+
+	private String createHeaderLine() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private String createPlayerLine(Player player) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 
 	@Override
 	public String serialize() {
