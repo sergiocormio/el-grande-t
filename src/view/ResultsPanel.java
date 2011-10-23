@@ -57,7 +57,7 @@ public class ResultsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// Open a dialog and choose an actionObject File!
-				int retVal = fileChooser.showSaveDialog(fileNameTextField);
+				int retVal = fileChooser.showOpenDialog(null);
 				if(retVal == JFileChooser.APPROVE_OPTION){
 					File file = fileChooser.getSelectedFile();
 					fileNameTextField.setText(file.getPath());

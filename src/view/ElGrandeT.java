@@ -55,7 +55,7 @@ public class ElGrandeT {
 		tabPanel.addTab("Armar Equipo", null, armTeamPanel , "Armar un equipo en base a información sobre jugadores...");
 		tabPanel.addTab("Resultados", null,resultsPanel, "Ver los resultados del armado de un equipo...");
 		tabPanel.addTab("Comparar", null, new ComparisonPanel(), "Comparar resultados de diferentes equipos...");
-		tabPanel.addTab("Base de Datos", null, new JLabel("HOLA"), "Administración de Bases de Datos de jugadores...");
+		tabPanel.addTab("Base de Datos", null, new DatabasePanel(), "Administración de Bases de Datos de jugadores...");
 		jf.add(tabPanel);
 	}
 	
