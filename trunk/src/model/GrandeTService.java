@@ -22,9 +22,9 @@ public class GrandeTService implements IGrandeTService{
 	public ResultantTeam armTeam(UserInputData userInputData) throws FileBadFormedException, IOException, InvalidModelException {
 		
 		// loads and validate file format
-		List<Player> playersDataBase = PlayersLoader.loadDataBase(userInputData.getDbFileName());
+		List<Player> players = userInputData.getPlayersDataBase().getPlayers();
 		
-		ResultantTeam resultantTeam = LPSolveAdapter.runModel(userInputData, playersDataBase);
+		ResultantTeam resultantTeam = LPSolveAdapter.runModel(userInputData, players);
 		return resultantTeam;
 		
 	}

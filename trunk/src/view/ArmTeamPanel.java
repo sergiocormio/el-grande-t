@@ -20,6 +20,7 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 
 import model.IGrandeTService;
+import model.dto.PlayersDataBase;
 import model.dto.ResultantTeam;
 import model.dto.UserInputData;
 
@@ -37,6 +38,7 @@ public class ArmTeamPanel extends JPanel {
 	private JSpinner budgetSpinner;
 	private JSpinner numberOfPlayersSpinner;
 	private JButton armTeamButton;
+	private PlayersDataBase currentPlayersDBSelected;
 	
     // Create the listener list
     protected javax.swing.event.EventListenerList listenerList = new javax.swing.event.EventListenerList();
@@ -79,9 +81,8 @@ public class ArmTeamPanel extends JPanel {
 						//disable armTeam button first
 						armTeamButton.setEnabled(false);
 						//Load Skills from file!
-						//List<String> skills = ElGrandeT.getGrandeTService().getSkillsFromPlayersDBFile(dataFileNameTextField.getText());
-						
-						List<String> skills = ElGrandeT.getGrandeTService().loadPlayersDataBase(dataFileNameTextField.getText()).getSkills();
+						currentPlayersDBSelected = ElGrandeT.getGrandeTService().loadPlayersDataBase(dataFileNameTextField.getText());
+						List<String> skills = currentPlayersDBSelected.getSkillList();
 						
 						skillToMaxCombo.removeAllItems();
 						skillToMaxCombo.setModel(new DefaultComboBoxModel(skills.toArray()));
@@ -89,7 +90,7 @@ public class ArmTeamPanel extends JPanel {
 						//turn back armTeamButton to enable
 						armTeamButton.setEnabled(true);
 					}catch (Exception e){
-						
+						//TODO: Show error messages to user!
 					}
 				}
 			}
@@ -153,7 +154,7 @@ public class ArmTeamPanel extends JPanel {
 					UserInputData userInputData = new UserInputData();
 					SpinnerNumberModel bm = (SpinnerNumberModel) budgetSpinner.getModel(); 
 					userInputData.setBudget(bm.getNumber().longValue());
-					userInputData.setDbFileName(dataFileNameTextField.getText());
+					userInputData.setPlayersDataBase(currentPlayersDBSelected);
 					userInputData.setFormation((String)formationCombo.getSelectedItem());
 					SpinnerNumberModel nm = (SpinnerNumberModel) numberOfPlayersSpinner.getModel();
 					userInputData.setNumberOfPlayers(nm.getNumber().intValue());

@@ -47,7 +47,6 @@ public class StatsInformationLoader {
 	private static UserInputData loadUserInputData(String[] fields) {
 		UserInputData userInputData = new UserInputData();
 			
-		userInputData.setDbFileName(fields[3]);
 		userInputData.setBudget(new Long(fields[4]));
 		userInputData.setSkillToMax(fields[5]);
 		userInputData.setFormation(fields[6]);
