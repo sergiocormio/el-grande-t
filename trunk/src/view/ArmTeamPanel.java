@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -73,7 +74,7 @@ public class ArmTeamPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// Open a dialog and choose an actionObject File!
-				int retVal = fileChooser.showSaveDialog(dataFileNameTextField);
+				int retVal = fileChooser.showOpenDialog(null);
 				if(retVal == JFileChooser.APPROVE_OPTION){
 					File file = fileChooser.getSelectedFile();
 					dataFileNameTextField.setText(file.getPath());
@@ -90,7 +91,7 @@ public class ArmTeamPanel extends JPanel {
 						//turn back armTeamButton to enable
 						armTeamButton.setEnabled(true);
 					}catch (Exception e){
-						//TODO: Show error messages to user!
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
