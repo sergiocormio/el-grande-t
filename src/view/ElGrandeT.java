@@ -9,13 +9,14 @@ import javax.swing.JTabbedPane;
 
 import view.ArmTeamPanel.NewTeamCreatedEvent;
 
+import model.GrandeTService;
 import model.GrandeTServiceMock;
 import model.IGrandeTService;
 
 public class ElGrandeT {
 	private JFrame jf;
 	private JTabbedPane tabPanel;
-	private static IGrandeTService grandeTService = new GrandeTServiceMock();
+	private static IGrandeTService grandeTService = new GrandeTService();
 	private ArmTeamPanel armTeamPanel;
 	private ResultsPanel resultsPanel;
 	
