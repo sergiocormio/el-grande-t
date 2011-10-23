@@ -67,4 +67,15 @@ public class Player implements Serializable{
 	public synchronized Map<String, Skill> getSkills() {
 		return skills;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		
+		Player anotherPlayer = (Player)obj;
+		
+		return this.name.equalsIgnoreCase(anotherPlayer.getName());
+		
+	}
+	
+	
 }
