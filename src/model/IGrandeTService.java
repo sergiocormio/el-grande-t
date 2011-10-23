@@ -37,25 +37,7 @@ public interface IGrandeTService {
 	*/
 	public PlayersDataBase loadPlayersDataBase(String dataBaseFileName) throws FileBadFormedException, IOException;
 	
+			
 	
-	
-	/* 
-	/**
-	 * Returns a list of skill names from a Players Database file name.
-	 * 
-	 * USE: loadPlayersDataBase
-	 * 
-	 */
-	public List<String> getSkillsFromPlayersDBFile(String dataBaseFileName) throws Exception;
-	
-	
-	
-	/**
-	 * saves a resultant team in the file system
-	 * 
-	 * @param resultantTeam
-	 * @param fileName
-	 */
-	public void saveResultantTeam(ResultantTeam resultantTeam, String fileName);
-	
+
 }

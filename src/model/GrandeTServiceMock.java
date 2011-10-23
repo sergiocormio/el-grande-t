@@ -56,6 +56,7 @@ public class GrandeTServiceMock implements IGrandeTService {
 
 	
 	// USE: loadPlayersDataBase
+	/*
 	@Override
 	public List<String> getSkillsFromPlayersDBFile(String dataBaseFileName)
 			throws Exception {
@@ -65,6 +66,7 @@ public class GrandeTServiceMock implements IGrandeTService {
 		resultList.add("Defensa");
 		return resultList;
 	}
+	*/
 	
 	private static List<Player> getTeamMock(){
 		List<Player> team = new ArrayList<Player>();
@@ -84,10 +86,6 @@ public class GrandeTServiceMock implements IGrandeTService {
 	}
 	
 	
-	@Override
-	public void saveResultantTeam(ResultantTeam resultantTeam, String fileName){
-		
-	}
 	
 
 }

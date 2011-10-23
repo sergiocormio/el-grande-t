@@ -79,7 +79,10 @@ public class ArmTeamPanel extends JPanel {
 						//disable armTeam button first
 						armTeamButton.setEnabled(false);
 						//Load Skills from file!
-						List<String> skills = ElGrandeT.getGrandeTService().getSkillsFromPlayersDBFile(dataFileNameTextField.getText());
+						//List<String> skills = ElGrandeT.getGrandeTService().getSkillsFromPlayersDBFile(dataFileNameTextField.getText());
+						
+						List<String> skills = ElGrandeT.getGrandeTService().loadPlayersDataBase(dataFileNameTextField.getText()).getSkills();
+						
 						skillToMaxCombo.removeAllItems();
 						skillToMaxCombo.setModel(new DefaultComboBoxModel(skills.toArray()));
 						skillToMaxCombo.setSelectedIndex(0);
