@@ -46,14 +46,17 @@ public class ResultantTeam implements Fileable, Serializable{
 		String statsLine = createStatsLine();
 		writer.println(statsLine);
 		
-		String headerLine = createHeaderLine();
+		PlayersDataBase playersDB = statisticalInformation.getUserInputData().getPlayersDataBase();
+		String headerLine = createHeaderLine(playersDB.getHeaders());
 		writer.println(headerLine);
 		
 		for (Player player : this.players) {
 			
-			String playerLine = createPlayerLine(player);
+			String playerLine = createPlayerLine(player, playersDB.getSkillList());
 			writer.println(playerLine);
 		}
+		
+		writer.close();
 	}
 
 	@Override
@@ -64,16 +67,15 @@ public class ResultantTeam implements Fileable, Serializable{
 	
 	
 	private String createStatsLine() {
-		String statsLine = null;
 		
-		statsLine += statisticalInformation.getTotalProfit();
+		String statsLine = String.valueOf(statisticalInformation.getTotalProfit());
 		statsLine += Utils.FIELD_SEPARATOR;
 		statsLine += statisticalInformation.getTime();
 		statsLine += Utils.FIELD_SEPARATOR;
 		statsLine += statisticalInformation.getFinalCost();
 		statsLine += Utils.FIELD_SEPARATOR;
 		
-		statsLine += createUserInputDataLineFields(statsLine, statisticalInformation.getUserInputData());
+		statsLine = createUserInputDataLineFields(statsLine, statisticalInformation.getUserInputData());
 		
 		return statsLine;
 	}
@@ -88,19 +90,46 @@ public class ResultantTeam implements Fileable, Serializable{
 		statsLine += userInputData.getFormation();
 		statsLine += Utils.FIELD_SEPARATOR;
 		statsLine += userInputData.getNumberOfPlayers();
-		statsLine += Utils.FIELD_SEPARATOR;
+		//el ultimo no va
+		//statsLine += Utils.FIELD_SEPARATOR;
 		
 		return statsLine;
 	}
 
-	private String createHeaderLine() {
-		// TODO Auto-generated method stub
-		return null;
+	private String createHeaderLine(List<String> headers) {
+		String headersLine = "";
+		
+		for (String header : headers) {
+			
+			headersLine += header;
+			headersLine += Utils.FIELD_SEPARATOR;
+		}
+		
+		return headersLine;
 	}
 
-	private String createPlayerLine(Player player) {
-		// TODO Auto-generated method stub
-		return null;
+	private String createPlayerLine(Player player, List<String> skills) {
+		String playerLine = "";
+		
+		playerLine += player.getName();
+		playerLine += Utils.FIELD_SEPARATOR;
+		playerLine += player.getPosition().name();
+		playerLine += Utils.FIELD_SEPARATOR;
+		playerLine += player.getPrice();
+		playerLine += Utils.FIELD_SEPARATOR;
+		
+		for (String strSkill : skills) {
+			Skill skill = player.getSkill(strSkill);
+			String skillValue = "0";
+			if(skill != null)
+				skillValue = String.valueOf(skill.getValue());
+			
+			playerLine += skillValue;
+			playerLine += Utils.FIELD_SEPARATOR;
+			
+		}
+		
+		return playerLine;
 	}
 	
 
