@@ -29,7 +29,7 @@ public class StatsInformationLoader {
 		}
 		
 		String fields[] = line.split(Utils.FIELD_SEPARATOR_REGEXP);
-		if(fields.length != 8){
+		if(fields.length != 7){
 			throw new FileBadFormedException(Utils.EXP_FILE_BAD_FORMED_STAT);
 		}
 		
@@ -47,10 +47,10 @@ public class StatsInformationLoader {
 	private static UserInputData loadUserInputData(String[] fields) {
 		UserInputData userInputData = new UserInputData();
 			
-		userInputData.setBudget(new Long(fields[4]));
-		userInputData.setSkillToMax(fields[5]);
-		userInputData.setFormation(fields[6]);
-		userInputData.setNumberOfPlayers(Integer.parseInt(fields[7]));
+		userInputData.setBudget(new Long(fields[3]));
+		userInputData.setSkillToMax(fields[4]);
+		userInputData.setFormation(fields[5]);
+		userInputData.setNumberOfPlayers(Integer.parseInt(fields[6]));
 				
 		return userInputData;
 		

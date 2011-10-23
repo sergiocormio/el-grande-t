@@ -35,6 +35,7 @@ public class GrandeTService implements IGrandeTService{
 		BufferedReader bufferedReader = Utils.getBufferedReader(dataBaseFileName);
 		List<String> headers = PlayersLoader.loadHeaders(bufferedReader);
 		List<Player> playersDataBase = PlayersLoader.loadData(headers, bufferedReader);
+		bufferedReader.close();
 		
 		return new PlayersDataBase(headers, playersDataBase, new File(dataBaseFileName));
 		
@@ -47,6 +48,7 @@ public class GrandeTService implements IGrandeTService{
 		StatisticalInformation information = StatsInformationLoader.load(bufferedReader);
 		List<String> headers = PlayersLoader.loadHeaders(bufferedReader);
 		List<Player> players = PlayersLoader.loadData(headers, bufferedReader);
+		bufferedReader.close();
 		
 		return new ResultantTeam(new File(resultFileName), players, information);
 	}
