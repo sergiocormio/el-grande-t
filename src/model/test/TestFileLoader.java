@@ -19,7 +19,8 @@ public class TestFileLoader extends TestCase{
 	
 	public static final String DB_FILENAME = "src/resources/test/LP_TEST.txt";
 	public static final String RT_FILENAME = "src/resources/test/resultantTeam.txt";
-	public static final String RT_FILENAME_TO_SAVE = "src/resources/test/resultantTeamSAVED.txt";
+	public static final String RT_FILENAME_TO_SAVE = "src/resources/test/resultantTeam_TO_SAVE.txt";
+	private static final String DB_FILENAME_TO_SAVE = "src/resources/test/LP_TEST_TO_SAVE.txt";
 	
 	@Override
 	protected void setUp() throws Exception {
@@ -70,7 +71,24 @@ public class TestFileLoader extends TestCase{
 		
 	}
 	
-	
+	public void testSavePlayersDataBase() throws FileBadFormedException, IOException {
+		
+		BufferedReader bufferedReader = Utils.getBufferedReader(DB_FILENAME);
+		List<String> headers = PlayersLoader.loadHeaders(bufferedReader);
+		List<Player> players = PlayersLoader.loadData(headers, bufferedReader);
+		
+		assertEquals(400, players.size());
+		
+		for (Player player: players) {
+			System.out.println(player.getName());
+		}
+		
+		PlayersDataBase dataBase = new PlayersDataBase(headers, players, new File(DB_FILENAME_TO_SAVE));
+		
+		dataBase.saveToFile();
+		
+	}
+
 	public void testLoadResultantTeam() throws FileBadFormedException, IOException {
 		
 		BufferedReader bufferedReader = Utils.getBufferedReader(RT_FILENAME);
