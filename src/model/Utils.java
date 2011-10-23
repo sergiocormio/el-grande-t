@@ -14,6 +14,8 @@ public class Utils {
 	public static final String EXP_FILE_BAD_FORMED_MANDATORY = "Archivo mal formado - Faltan datos mandatorios";
 	public static final String EXP_FILE_BAD_FORMED_STAT = "Archivo mal formado - Problema en datos estadisticos";
 	public static final String EXP_INVALID_MODEL = "Modelo inválido";
+	public static final String EXP_PLAYER_ALREADY_EXISTS = "El jugador ya existe";
+	public static final String EXP_SKILL_ALREADY_EXISTS = "La habilidad ya existe";
 	
 	
 	public static PrintWriter getPrintWriter(String fileName) {
