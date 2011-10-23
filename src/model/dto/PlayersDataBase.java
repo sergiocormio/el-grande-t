@@ -31,11 +31,11 @@ public class PlayersDataBase implements Fileable, Serializable {
 	}
 	
 	public void addPlayer(Player p){
-		
+		players.add(p);
 	}
 	
 	public void deletePlayer(Player p){
-		
+		players.remove(p);
 	}
 	
 	public void addSkillToAllPlayers(Skill s){
