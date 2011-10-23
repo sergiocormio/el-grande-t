@@ -51,17 +51,8 @@ public class GrandeTService implements IGrandeTService{
 		return new ResultantTeam(new File(resultFileName), players, information);
 	}
 
-	@Override
-	// USE: loadPlayersDataBase
-	public List<String> getSkillsFromPlayersDBFile(String dataBaseFileName) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
-	@Override
-	public void saveResultantTeam(ResultantTeam resultantTeam, String fileName){
 		
-	}
 	
 }
