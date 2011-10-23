@@ -11,6 +11,7 @@ import model.dto.StatisticalInformation;
 import model.dto.UserInputData;
 import model.dto.Player.Position;
 import model.exceptions.InvalidModelException;
+import model.exceptions.SkillAlreadyExistsException;
 import model.lpsolve.LPSolveAdapter;
 
 public class TestLPSolveAdapter extends TestCase {
@@ -24,7 +25,7 @@ public class TestLPSolveAdapter extends TestCase {
 		
 	}
 
-	public void testLPSolveAdapter() throws InvalidModelException{
+	public void testLPSolveAdapter() throws InvalidModelException, SkillAlreadyExistsException{
 		
 		
 		List<Player> playersDataBase = createDBMock();
@@ -73,7 +74,7 @@ public class TestLPSolveAdapter extends TestCase {
 		return data;
 	}
 
-	private List<Player> createDBMock() {
+	private List<Player> createDBMock() throws SkillAlreadyExistsException {
 		List<Player> list = new ArrayList<Player>();
 		for (int id = 1; id <= 400; id++) {
 			
@@ -107,7 +108,7 @@ public class TestLPSolveAdapter extends TestCase {
 		return list;
 	}
 
-	private Player createPlayerMock(int id, Position pos, long price, int skillValue) {
+	private Player createPlayerMock(int id, Position pos, long price, int skillValue) throws SkillAlreadyExistsException {
 		
 		Player player = new Player(String.valueOf(id), pos, price);
 		

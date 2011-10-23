@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import model.Serializable;
+import model.exceptions.SkillAlreadyExistsException;
 
 
 public class Player implements Serializable{
@@ -22,7 +23,10 @@ public class Player implements Serializable{
 		this.price = price;
 	}
 
-	public void addSkill(Skill skill){
+	public void addSkill(Skill skill) throws SkillAlreadyExistsException{
+		if(skills.containsKey(skill.getName()))
+			throw new SkillAlreadyExistsException();
+		
 		skills.put(skill.getName(), skill);
 	}
 	

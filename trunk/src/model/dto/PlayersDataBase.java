@@ -8,6 +8,8 @@ import java.util.List;
 import model.Fileable;
 import model.Serializable;
 import model.Utils;
+import model.exceptions.PlayerAlreadyExistsException;
+import model.exceptions.SkillAlreadyExistsException;
 
 public class PlayersDataBase implements Fileable, Serializable {
 
@@ -30,7 +32,10 @@ public class PlayersDataBase implements Fileable, Serializable {
 		return headers.subList(3, headers.size());
 	}
 	
-	public void addPlayer(Player p){
+	public void addPlayer(Player p) throws PlayerAlreadyExistsException{
+		if(players.contains(p))
+			throw new PlayerAlreadyExistsException();
+		
 		players.add(p);
 	}
 	
@@ -38,7 +43,7 @@ public class PlayersDataBase implements Fileable, Serializable {
 		players.remove(p);
 	}
 	
-	public void addSkillToAllPlayers(Skill s){
+	public void addSkillToAllPlayers(Skill s) throws SkillAlreadyExistsException{
 		for(Player p : players){
 			p.addSkill(s);
 		}

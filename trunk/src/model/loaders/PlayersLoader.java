@@ -12,6 +12,7 @@ import model.dto.Skill;
 import model.dto.Player.Position;
 import model.exceptions.FileBadFormedException;
 import model.exceptions.InvalidPlayerPositionException;
+import model.exceptions.SkillAlreadyExistsException;
 import model.validators.FileValidator;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -44,6 +45,9 @@ public class PlayersLoader {
 		
 		List<String> headerFields = new ArrayList<String>();
 		for (String header : arrHeaderFields) {
+			if(headerFields.contains(header))
+				throw new FileBadFormedException(Utils.EXP_SKILL_ALREADY_EXISTS);
+			
 			headerFields.add(header);
 		}
 		
@@ -102,7 +106,7 @@ public class PlayersLoader {
 			line = line.trim();
 			
 			Player player = createPlayer(line, headerFields);
-			if(player != null){
+			if(player != null && !playersDataBase.contains(player)){
 				playersDataBase.add( player );
 			}
 			
@@ -142,12 +146,17 @@ public class PlayersLoader {
 			e.printStackTrace();
 			return null;
 		}
+		 catch (SkillAlreadyExistsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 				
 	}
 	
 	
 	
-	private static Player createPlayer(String[] fields, String[] headerFields) {
+	private static Player createPlayer(String[] fields, String[] headerFields) throws SkillAlreadyExistsException {
 		
 		Player player = new Player(fields[0], Position.valueOf(fields[1]), 
 				new Long(fields[2]).longValue());
