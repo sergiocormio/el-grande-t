@@ -13,31 +13,21 @@ public class PlayersDataBase implements Fileable, Serializable {
 
 	private File file;
 	private List<Player> players;
-	private List<String> skills;
+	private List<String> headers;
 	
 	
 	public PlayersDataBase(){
 		players = new ArrayList<Player>();
 	}
 	
-	public PlayersDataBase(List<String> skills, List<Player> players, File file){
-		this.skills = skills;
+	public PlayersDataBase(List<String> headers, List<Player> players, File file){
+		this.headers = headers;
 		this.players = players;
 		this.file = file;
 	}
 	
 	public List<String> getSkillList(){
-		List<String> skills = new ArrayList<String>();
-		Set<String> skillsSet = new HashSet<String>();
-		
-		for(Player p : players){
-			skillsSet.addAll(p.getSkills().keySet());
-		}
-		
-		for (String s : skillsSet){
-			skills.add(s);
-		}
-		return skills;
+		return headers.subList(3, headers.size());
 	}
 	
 	public void addPlayer(Player p){
@@ -60,6 +50,10 @@ public class PlayersDataBase implements Fileable, Serializable {
 		}
 	}
 	
+	public List<Player> getPlayers(){
+		return players;
+	}
+	
 	@Override
 	public void saveToFile(String fileName) {
 		// TODO Auto-generated method stub
@@ -78,8 +72,8 @@ public class PlayersDataBase implements Fileable, Serializable {
 		return null;
 	}
 
-	public List<String> getSkills() {
-		return skills;
+	public List<String> getHeaders() {
+		return headers;
 	}
 	
 	

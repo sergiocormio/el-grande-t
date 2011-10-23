@@ -3,18 +3,19 @@ package model.dto;
 import model.Serializable;
 
 public class UserInputData implements Serializable {
-	private String dbFileName;
+	private PlayersDataBase playersDataBase;
 	private long budget;
 	private String skillToMax;
 	private String formation;
 	private int numberOfPlayers;
 	
 	
-	public String getDbFileName() {
-		return dbFileName;
+	public PlayersDataBase getPlayersDataBase() {
+		return playersDataBase;
 	}
-	public void setDbFileName(String dbFileName) {
-		this.dbFileName = dbFileName;
+	
+	public void setPlayersDataBase(PlayersDataBase playersDataBase) {
+		this.playersDataBase = playersDataBase;
 	}
 	public long getBudget() {
 		return budget;

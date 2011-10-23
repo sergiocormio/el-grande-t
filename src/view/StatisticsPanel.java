@@ -29,7 +29,7 @@ public class StatisticsPanel extends JPanel {
 	public void setStatisticalInformation(StatisticalInformation info){
 		statisticalInfo = info;
 		objectiveLabel.setText("Objetivo: Maximizar " + statisticalInfo.getUserInputData().getSkillToMax());
-		timeLabel.setText("Tiempo de cómputo: " + statisticalInfo.getTime() + "seg.");
+		timeLabel.setText("Tiempo de cómputo: " + statisticalInfo.getTime() + "ms.");
 		budgetLabel.setText("Presupuesto: $" + statisticalInfo.getUserInputData().getBudget());
 		finalCostLabel.setText("Costo final: $" + statisticalInfo.getFinalCost());
 		totalProfitLabel.setText("Beneficio obtenido: " + statisticalInfo.getTotalProfit());

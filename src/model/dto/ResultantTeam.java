@@ -81,8 +81,6 @@ public class ResultantTeam implements Fileable, Serializable{
 	
 	private String createUserInputDataLineFields(String statsLine, UserInputData userInputData) {
 
-		statsLine += userInputData.getDbFileName();
-		statsLine += Utils.FIELD_SEPARATOR;
 		statsLine += userInputData.getBudget();
 		statsLine += Utils.FIELD_SEPARATOR;
 		statsLine += userInputData.getSkillToMax();

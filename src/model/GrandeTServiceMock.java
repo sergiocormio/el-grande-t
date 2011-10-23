@@ -22,15 +22,17 @@ public class GrandeTServiceMock implements IGrandeTService {
 	@Override
 	public ResultantTeam armTeam(UserInputData userInputData) throws  FileBadFormedException, IOException, InvalidModelException{
 		
-		return retrieveSavedTeam(null);
+		//return retrieveSavedTeam(null);
+		IGrandeTService realService = new GrandeTService();
+		return realService.armTeam(userInputData);
 		
 	}
 
 	@Override
-	public PlayersDataBase loadPlayersDataBase(String dataBaseFileName) {
+	public PlayersDataBase loadPlayersDataBase(String dataBaseFileName) throws FileBadFormedException, IOException{
 		
-		// TODO Auto-generated method stub
-		return null;
+		IGrandeTService realService = new GrandeTService();
+		return realService.loadPlayersDataBase(dataBaseFileName);
 	}
 
 	@Override
