@@ -1,16 +1,43 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Vector;
 
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SpinnerModel;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 
+import model.IGrandeTService;
 import model.dto.Player;
+import model.dto.Skill;
+import model.dto.Player.Position;
 
 public class PlayerDialog extends JDialog {
 
@@ -20,13 +47,26 @@ public class PlayerDialog extends JDialog {
 	private static final long serialVersionUID = -8425500129667700319L;
 	private Player player;
 	private Container content;
+	private JTextField playerNameField;
+	private JComboBox positionCombo;
+	private JSpinner priceSpinner;
+	private JSpinner currentSkillValue;
+	private JList skillList;
 
 	public PlayerDialog(JFrame fr, Player player){
 		super(fr,"Jugador",true);
 		this.player = player;
 		content = getContentPane();
-		content.setLayout(new BorderLayout());
-		content.add(new JLabel(player.getName()));
+		content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
+		JLabel label = new JLabel();
+		label.setIcon(new ImageIcon("src/resources/user.png"));
+		label.setAlignmentX(Component.CENTER_ALIGNMENT);
+		content.add(label);
+		addPlayerName();
+		addPosition();
+		addPrice();
+		addSkills();
+		addButtons();
 		pack();
 		
 		this.addWindowListener(new WindowListener(){
@@ -75,4 +115,97 @@ public class PlayerDialog extends JDialog {
 			
 		});
 	}
+
+	private void addPlayerName() {
+		JPanel p = new JPanel(new FlowLayout());
+		p.add(new JLabel("Nombre del Jugador: "));
+		playerNameField = new JTextField(player.getName(), 25);
+		p.add(playerNameField);
+		p.setAlignmentX(CENTER_ALIGNMENT);
+		content.add(p);
+	}
+	
+	private void addPosition() {
+		JPanel p = new JPanel(new FlowLayout());
+		p.add(new JLabel("Posición: "));
+		positionCombo = new JComboBox(Position.values());
+		positionCombo.setSelectedItem(player.getPosition());
+		p.add(positionCombo);
+		p.setAlignmentX(CENTER_ALIGNMENT);
+		content.add(p);
+	}
+	
+	private void addPrice() {
+		JPanel p = new JPanel(new FlowLayout());
+		p.add(new JLabel("Precio: "));
+		SpinnerModel priceModel = new SpinnerNumberModel(player.getPrice(), 0, Integer.MAX_VALUE, 1000);
+		priceSpinner = new JSpinner();
+		priceSpinner.setModel(priceModel);
+		p.add(priceSpinner);
+		p.setAlignmentX(CENTER_ALIGNMENT);
+		content.add(p);
+	}
+	
+	private void addSkills() {
+		JPanel p = new JPanel(new FlowLayout());
+		p.setBorder(new TitledBorder("Habilidades: "));
+		Collection<Skill> skills = player.getSkills().values();
+		List<String> skillNames= new ArrayList<String>();
+		for (Skill s : skills){
+			skillNames.add(s.getName());
+		}
+		skillList = new JList(skillNames.toArray()); // data has type Object[]
+		skillList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		skillList.setLayoutOrientation(JList.VERTICAL);
+		skillList.setVisibleRowCount(-1);
+		skillList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting() == false) {
+
+					if (skillList.getSelectedIndex() == -1) {
+						currentSkillValue.setEnabled(false);
+					} else {
+						currentSkillValue.setEnabled(true);
+						currentSkillValue.setValue(player.getSkill((String)skillList.getSelectedValue()).getValue());
+					}
+				}
+			}
+		});
+		JScrollPane listScroller = new JScrollPane(skillList);
+		listScroller.setPreferredSize(new Dimension(150, 80));
+		p.add(listScroller);
+		
+		SpinnerModel skillModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 10);
+		currentSkillValue =  new JSpinner();
+		currentSkillValue.setEnabled(false);
+		currentSkillValue.setModel(skillModel);
+		p.add(currentSkillValue);
+		
+		p.setAlignmentX(CENTER_ALIGNMENT);
+		content.add(p);
+	}
+	
+	private void addButtons() {
+		JPanel p = new JPanel(new FlowLayout());
+		JButton saveButton = new JButton("Guardar");
+		saveButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//Saves all information inside player instance
+				player.setName(playerNameField.getText());
+				player.setPosition((Position) positionCombo.getSelectedItem());
+				player.setPrice((Long)priceSpinner.getValue());
+				//TODO: Set skills
+				//finally close
+				setVisible(false);
+				
+			}
+		});
+		p.add(saveButton);
+		p.setAlignmentX(CENTER_ALIGNMENT);
+		content.add(p);
+	}
+	
 }
