@@ -12,6 +12,7 @@ import java.util.Vector;
 import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -30,6 +31,8 @@ import sun.net.www.content.text.plain;
 import model.dto.Player;
 import model.dto.PlayersDataBase;
 import model.dto.Skill;
+import model.dto.Player.Position;
+import model.exceptions.SkillAlreadyExistsException;
 
 public class DatabasePanel extends JPanel {
 
@@ -97,12 +100,55 @@ public class DatabasePanel extends JPanel {
 		playersToolPanel.setBorder(new TitledBorder("Jugadores"));
 		newPlayerButton = new JButton("Agregar");
 		newPlayerButton.setEnabled(false);
+		newPlayerButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Player newPlayer = new Player("Nuevo Jugador",Position.ARQ,1000000L);
+				for (String skillName : currentPlayersDataBase.getSkillList()){
+					Skill skill = new Skill();
+					skill.setName(skillName);
+					skill.setValue(0);
+					try {
+						newPlayer.addSkill(skill);
+					} catch (SkillAlreadyExistsException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				PlayerDialog dialog = new PlayerDialog(null,newPlayer);
+				dialog.setVisible(true);
+				try {
+					currentPlayersDataBase.addPlayer(newPlayer);
+					loadCurrentPlayersDataBase();
+				} catch (Exception e2) {
+					// TODO: handle exception
+				}
+			}
+		});
 		playersToolPanel.add(newPlayerButton);
 		modifyPlayerButton = new JButton("Modificar");
 		modifyPlayerButton.setEnabled(false);
+		modifyPlayerButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new PlayerDialog(null,currentPlayersDataBase.getPlayers().get(playersTable.getSelectedRow())).setVisible(true);
+				loadCurrentPlayersDataBase();
+			}
+		});
 		playersToolPanel.add(modifyPlayerButton);
 		deletePlayerButton = new JButton("Eliminar");
 		deletePlayerButton.setEnabled(false);
+		deletePlayerButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int result = JOptionPane.showConfirmDialog(null, "¿Está seguro a éste jugador de la lista?","Eliminar Jugador", JOptionPane.YES_NO_OPTION);
+				if(result == JOptionPane.YES_OPTION){
+					currentPlayersDataBase.deletePlayer(currentPlayersDataBase.getPlayers().get(playersTable.getSelectedRow()));
+					loadCurrentPlayersDataBase();
+				}
+				
+			}
+		});
 		playersToolPanel.add(deletePlayerButton);
 		parentPanel.add(playersToolPanel, BorderLayout.SOUTH);
 	}
@@ -141,7 +187,7 @@ public class DatabasePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String s = (String)JOptionPane.showInputDialog(
-									newSkillButton,
+									null,
 				                    "Nombre de la Habilidad:",
 				                    "Nueva Habilidad",
 				                    JOptionPane.PLAIN_MESSAGE);
@@ -150,7 +196,7 @@ public class DatabasePanel extends JPanel {
 					//If a string was returned, say so.
 					if ((s != null) && (s.length() > 0)) {
 						Skill skill = new Skill();
-						skill.setName(s);
+						skill.setName(s.toUpperCase());
 						skill.setValue(0);
 					   currentPlayersDataBase.addSkillToAllPlayers(skill);
 					   loadCurrentPlayersDataBase();
@@ -158,8 +204,6 @@ public class DatabasePanel extends JPanel {
 				}catch (Exception ex) {
 					// TODO: handle exception
 				}
-
-				
 				
 			}
 			
@@ -167,9 +211,43 @@ public class DatabasePanel extends JPanel {
 		skillsPanel.add(newSkillButton);
 		modifySkillButton = new JButton("Modificar");
 		modifySkillButton.setEnabled(false);
+		modifySkillButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String oldValue = (String)skillList.getSelectedValue();
+				String newValue = (String)JOptionPane.showInputDialog(
+						null,
+	                    "Nombre de la Habilidad:",
+	                    "Modificar Habilidad",
+	                    JOptionPane.PLAIN_MESSAGE,null,null,oldValue);
+
+						try{
+							//If a string was returned, say so.
+							if ((newValue != null) && (newValue.length() > 0)) {
+								currentPlayersDataBase.updateSkillNameToAllPlayers(oldValue, newValue.toUpperCase());
+							    loadCurrentPlayersDataBase();
+							}
+						}catch (Exception ex) {
+							// TODO: handle exception
+						}
+									
+			}});
 		skillsPanel.add(modifySkillButton);
 		deleteSkillButton = new JButton("Eliminar");
 		deleteSkillButton.setEnabled(false);
+		deleteSkillButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int result = JOptionPane.showConfirmDialog(null, "¿Está seguro de eliminar ésta habilidad de todos los jugadores?","Eliminar Habilidad", JOptionPane.YES_NO_OPTION);
+				if(result == JOptionPane.YES_OPTION){
+					String selectedSkill = (String) skillList.getSelectedValue();
+					currentPlayersDataBase.deleteSkillFromAllPlayers(selectedSkill);
+					loadCurrentPlayersDataBase();
+				}
+				
+			}
+		});
 		skillsPanel.add(deleteSkillButton);
 		parentPanel.add(skillsPanel,BorderLayout.NORTH);
 	}
