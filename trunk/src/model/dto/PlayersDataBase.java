@@ -70,12 +70,12 @@ public class PlayersDataBase implements Fileable, Serializable {
 			p.deleteSkill(skillName);
 		}
 		
-		int i = 0;
-		for (String header : headers) {
-			if(header.equalsIgnoreCase(skillName))
+		for (int i=0;i<headers.size();i++){
+			String header = headers.get(i);
+			if(header.equalsIgnoreCase(skillName)){
 				headers.remove(i);
-			else
-				++i;
+				break;
+			}
 		}
 	}
 	
