@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Fileable;
+import model.IGrandeTService;
 import model.Serializable;
 import model.Utils;
 import model.exceptions.PlayerAlreadyExistsException;
@@ -20,6 +21,10 @@ public class PlayersDataBase implements Fileable, Serializable {
 	
 	public PlayersDataBase(){
 		players = new ArrayList<Player>();
+		headers = new ArrayList<String>();
+		for(String h: IGrandeTService.DEFAULT_HEADERS){
+			headers.add(h);
+		}
 	}
 	
 	public PlayersDataBase(List<String> headers, List<Player> players, File file){
@@ -47,6 +52,8 @@ public class PlayersDataBase implements Fileable, Serializable {
 		for(Player p : players){
 			p.addSkill(s);
 		}
+		//TODO check alreadyExists
+		headers.add(s.getName());
 	}
 	
 	public void deleteSkillFromAllPlayers(String skillName){
