@@ -9,6 +9,7 @@ import model.Fileable;
 import model.IGrandeTService;
 import model.Serializable;
 import model.Utils;
+import model.exceptions.OldSkillNotExistException;
 import model.exceptions.PlayerAlreadyExistsException;
 import model.exceptions.SkillAlreadyExistsException;
 
@@ -49,18 +50,66 @@ public class PlayersDataBase implements Fileable, Serializable {
 	}
 	
 	public void addSkillToAllPlayers(Skill s) throws SkillAlreadyExistsException{
+		
+		for (String header : headers) {
+			if(header.equalsIgnoreCase(s.getName()))
+				throw new SkillAlreadyExistsException();
+		}
+
+		headers.add(s.getName());
+		
 		for(Player p : players){
 			p.addSkill(s);
 		}
-		//TODO check alreadyExists
-		headers.add(s.getName());
+		
 	}
 	
 	public void deleteSkillFromAllPlayers(String skillName){
+		
 		for(Player p : players){
 			p.deleteSkill(skillName);
 		}
+		
+		int i = 0;
+		for (String header : headers) {
+			if(header.equalsIgnoreCase(skillName))
+				headers.remove(i);
+			else
+				++i;
+		}
 	}
+	
+	public void updateSkillNameToAllPlayers(String oldSkillName, String newSkillName) throws SkillAlreadyExistsException, OldSkillNotExistException{
+	
+		boolean oldSkillExists = false;
+		
+		//validates
+		for (String header : headers) {
+			if(header.equalsIgnoreCase(newSkillName))
+				throw new SkillAlreadyExistsException();
+		
+			if(header.equalsIgnoreCase(oldSkillName))
+				oldSkillExists = true;
+		}
+		if(!oldSkillExists)
+			throw new OldSkillNotExistException();
+		
+		for(Player p : players){
+			p.updateSkill(oldSkillName, newSkillName);
+		}
+		
+		//update skillName
+		int i = 0;
+		for (String header : headers) {
+			if(header.equalsIgnoreCase(oldSkillName)){
+				headers.set(i, newSkillName);
+			}
+			else
+				++i;
+		}
+			
+	}
+	
 	
 	public List<Player> getPlayers(){
 		return players;
