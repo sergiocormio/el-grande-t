@@ -80,6 +80,15 @@ public class Player implements Serializable{
 		return this.name.equalsIgnoreCase(anotherPlayer.getName());
 		
 	}
+
+	public void updateSkill(String oldSkillName, String newSkillName) {
+		if(skills.containsKey(oldSkillName)){
+			Skill skill = skills.get(oldSkillName);
+			skill.setName(newSkillName);
+			skills.put(newSkillName, skill);
+			skills.remove(oldSkillName);
+		}
+	}
 	
 	
 }
