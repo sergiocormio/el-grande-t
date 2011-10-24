@@ -20,6 +20,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -27,6 +29,7 @@ import sun.net.www.content.text.plain;
 
 import model.dto.Player;
 import model.dto.PlayersDataBase;
+import model.dto.Skill;
 
 public class DatabasePanel extends JPanel {
 
@@ -66,16 +69,40 @@ public class DatabasePanel extends JPanel {
 		playersTable = new JTable();
 		JScrollPane scrollPane = new JScrollPane(playersTable);
 		playersTable.setFillsViewportHeight(true);
+		playersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		playersTable.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
+
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting() == false) {
+
+			        if (playersTable.getSelectedRow() == -1) {
+			        //No selection, disable  buttons.
+			            modifyPlayerButton.setEnabled(false);
+			            deletePlayerButton.setEnabled(false);
+			        } else {
+			        //Selection, enable the buttons.
+			        	modifyPlayerButton.setEnabled(true);
+				        deletePlayerButton.setEnabled(true);
+			        }
+			    }
+				
+			}
+			
+		});
 		parentPanel.add(scrollPane, BorderLayout.CENTER); 
 		
 		//South players panel
 		JPanel playersToolPanel = new JPanel(new FlowLayout());
 		playersToolPanel.setBorder(new TitledBorder("Jugadores"));
 		newPlayerButton = new JButton("Agregar");
+		newPlayerButton.setEnabled(false);
 		playersToolPanel.add(newPlayerButton);
 		modifyPlayerButton = new JButton("Modificar");
+		modifyPlayerButton.setEnabled(false);
 		playersToolPanel.add(modifyPlayerButton);
 		deletePlayerButton = new JButton("Eliminar");
+		deletePlayerButton.setEnabled(false);
 		playersToolPanel.add(deletePlayerButton);
 		parentPanel.add(playersToolPanel, BorderLayout.SOUTH);
 	}
@@ -87,14 +114,62 @@ public class DatabasePanel extends JPanel {
 		skillList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		skillList.setLayoutOrientation(JList.VERTICAL);
 		skillList.setVisibleRowCount(-1);
+		skillList.addListSelectionListener(new ListSelectionListener(){
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting() == false) {
+
+			        if (skillList.getSelectedIndex() == -1) {
+			        //No selection, disable  buttons.
+			            modifySkillButton.setEnabled(false);
+			            deleteSkillButton.setEnabled(false);
+			        } else {
+			        //Selection, enable the buttons.
+			        	modifySkillButton.setEnabled(true);
+			        	deleteSkillButton.setEnabled(true);
+			        }
+			    }
+			}
+		});
 		JScrollPane listScroller = new JScrollPane(skillList);
 		listScroller.setPreferredSize(new Dimension(150, 80));
 		skillsPanel.add(listScroller);
 		newSkillButton = new JButton("Agregar");
+		newSkillButton.setEnabled(false);
+		newSkillButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String s = (String)JOptionPane.showInputDialog(
+									newSkillButton,
+				                    "Nombre de la Habilidad:",
+				                    "Nueva Habilidad",
+				                    JOptionPane.PLAIN_MESSAGE);
+
+				try{
+					//If a string was returned, say so.
+					if ((s != null) && (s.length() > 0)) {
+						Skill skill = new Skill();
+						skill.setName(s);
+						skill.setValue(0);
+					   currentPlayersDataBase.addSkillToAllPlayers(skill);
+					   loadCurrentPlayersDataBase();
+					}
+				}catch (Exception ex) {
+					// TODO: handle exception
+				}
+
+				
+				
+			}
+			
+		});
 		skillsPanel.add(newSkillButton);
 		modifySkillButton = new JButton("Modificar");
+		modifySkillButton.setEnabled(false);
 		skillsPanel.add(modifySkillButton);
 		deleteSkillButton = new JButton("Eliminar");
+		deleteSkillButton.setEnabled(false);
 		skillsPanel.add(deleteSkillButton);
 		parentPanel.add(skillsPanel,BorderLayout.NORTH);
 	}
@@ -102,6 +177,20 @@ public class DatabasePanel extends JPanel {
 	private void addToolBar() {
 		JPanel toolBarPanel = new JPanel(new FlowLayout());
 		JButton newButton = new JButton("Nuevo");
+		newButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO: Ask if save first
+				try{
+					currentPlayersDataBase = new PlayersDataBase();
+					loadCurrentPlayersDataBase();
+				}catch (Exception e){
+					JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+			}
+
+		});
 		toolBarPanel.add(newButton);
 		
 		JButton openButton = new JButton("Abrir");
@@ -141,9 +230,9 @@ public class DatabasePanel extends JPanel {
 					File file = fileChooser.getSelectedFile();
 					fileNameTextField.setText(file.getPath());
 					try{
-						//TODO
+						currentPlayersDataBase.saveToFile(fileNameTextField.getText());
 					}catch (Exception e){
-						//TODO: check exception
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -163,12 +252,13 @@ public class DatabasePanel extends JPanel {
 		
 		playersTable.setModel(new DefaultTableModel(getRowsFromPlayers(currentPlayersDataBase.getPlayers()),currentPlayersDataBase.getHeaders().toArray()));
 		
+		newSkillButton.setEnabled(true);
+		newPlayerButton.setEnabled(true);
 	}
 
 	private Object [][] getRowsFromPlayers(List<Player> players) {
-		//Object[][] data = {getRowFromPlayer(players.get(0))};
 		List<String> headers = currentPlayersDataBase.getHeaders();
-		Object[][] data = new Object[players.size()][headers.size()];// {getRowFromPlayer(players.get(0))};
+		Object[][] data = new Object[players.size()][headers.size()];
 		for (int i=0;i<players.size();i++){
 			data[i] = getRowFromPlayer(players.get(i));
 		}
