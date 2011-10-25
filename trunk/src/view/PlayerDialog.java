@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -11,8 +10,9 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Vector;
+import java.util.Map;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -30,11 +30,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 
-import model.IGrandeTService;
 import model.dto.Player;
 import model.dto.Skill;
 import model.dto.Player.Position;
@@ -52,10 +53,14 @@ public class PlayerDialog extends JDialog {
 	private JSpinner priceSpinner;
 	private JSpinner currentSkillValue;
 	private JList skillList;
+	private Map<String,Integer> skillValuesMap;
+	private Boolean userSaved;
+
 
 	public PlayerDialog(JFrame fr, Player player){
 		super(fr,"Jugador",true);
 		this.player = player;
+		userSaved = false;
 		content = getContentPane();
 		content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
 		JLabel label = new JLabel();
@@ -68,7 +73,7 @@ public class PlayerDialog extends JDialog {
 		addSkills();
 		addButtons();
 		pack();
-		
+		setLocationRelativeTo(fr);
 		this.addWindowListener(new WindowListener(){
 
 			@Override
@@ -151,8 +156,10 @@ public class PlayerDialog extends JDialog {
 		p.setBorder(new TitledBorder("Habilidades: "));
 		Collection<Skill> skills = player.getSkills().values();
 		List<String> skillNames= new ArrayList<String>();
+		skillValuesMap = new HashMap<String, Integer>();
 		for (Skill s : skills){
 			skillNames.add(s.getName());
+			skillValuesMap.put(s.getName(), s.getValue());
 		}
 		skillList = new JList(skillNames.toArray()); // data has type Object[]
 		skillList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -167,7 +174,7 @@ public class PlayerDialog extends JDialog {
 						currentSkillValue.setEnabled(false);
 					} else {
 						currentSkillValue.setEnabled(true);
-						currentSkillValue.setValue(player.getSkill((String)skillList.getSelectedValue()).getValue());
+						currentSkillValue.setValue(skillValuesMap.get((String)skillList.getSelectedValue()));
 					}
 				}
 			}
@@ -179,6 +186,13 @@ public class PlayerDialog extends JDialog {
 		SpinnerModel skillModel = new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 10);
 		currentSkillValue =  new JSpinner();
 		currentSkillValue.setEnabled(false);
+		currentSkillValue.addChangeListener(new ChangeListener(){
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				//update skill Values in the map
+				skillValuesMap.put((String)skillList.getSelectedValue(),(Integer)currentSkillValue.getValue());
+			}
+		});
 		currentSkillValue.setModel(skillModel);
 		p.add(currentSkillValue);
 		
@@ -196,16 +210,33 @@ public class PlayerDialog extends JDialog {
 				//Saves all information inside player instance
 				player.setName(playerNameField.getText());
 				player.setPosition((Position) positionCombo.getSelectedItem());
-				player.setPrice((Long)priceSpinner.getValue());
-				//TODO: Set skills
+				player.setPrice(((Double)priceSpinner.getValue()).longValue());
+				//Sets new skill values
+				for (String skillName : skillValuesMap.keySet()){
+					player.getSkill(skillName).setValue(skillValuesMap.get(skillName));
+				}
+				//then mark as saved
+				userSaved = true;
 				//finally close
 				setVisible(false);
 				
 			}
 		});
 		p.add(saveButton);
+		JButton cancelButton = new JButton("Cancelar");
+		cancelButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+			}
+		});
+		p.add(cancelButton);
 		p.setAlignmentX(CENTER_ALIGNMENT);
 		content.add(p);
+	}
+
+	public Boolean getUserSaved() {
+		return userSaved;
 	}
 	
 }
