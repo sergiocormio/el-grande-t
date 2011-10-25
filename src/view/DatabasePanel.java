@@ -9,10 +9,8 @@ import java.io.File;
 import java.util.List;
 import java.util.Vector;
 
-import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -24,7 +22,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import model.dto.Player;
 import model.dto.PlayersDataBase;
@@ -115,11 +112,13 @@ public class DatabasePanel extends JPanel {
 						e1.printStackTrace();
 					}
 				}
-				PlayerDialog dialog = new PlayerDialog(null, newPlayer);
+				PlayerDialog dialog = new PlayerDialog(ElGrandeT.mainJFrame, newPlayer);
 				dialog.setVisible(true);
 				try {
-					currentPlayersDataBase.addPlayer(newPlayer);
-					loadCurrentPlayersDataBase();
+					if(dialog.getUserSaved()){
+						currentPlayersDataBase.addPlayer(newPlayer);
+						loadCurrentPlayersDataBase();
+					}
 				} catch (Exception e2) {
 					// TODO: handle exception
 				}
@@ -131,9 +130,12 @@ public class DatabasePanel extends JPanel {
 		modifyPlayerButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new PlayerDialog(null, currentPlayersDataBase.getPlayers().get(
-						playersTable.getSelectedRow())).setVisible(true);
-				loadCurrentPlayersDataBase();
+				PlayerDialog dialog = new PlayerDialog(ElGrandeT.mainJFrame, currentPlayersDataBase.getPlayers().get(
+						playersTable.getSelectedRow()));
+				dialog.setVisible(true);
+				if(dialog.getUserSaved()){
+					loadCurrentPlayersDataBase();
+				}
 			}
 		});
 		playersToolPanel.add(modifyPlayerButton);
@@ -142,8 +144,8 @@ public class DatabasePanel extends JPanel {
 		deletePlayerButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int result = JOptionPane.showConfirmDialog(null,
-						"¿Está seguro a éste jugador de la lista?",
+				int result = JOptionPane.showConfirmDialog(ElGrandeT.mainJFrame,
+						"¿Está seguro que desea eliminar a éste jugador de la lista?",
 						"Eliminar Jugador", JOptionPane.YES_NO_OPTION);
 				if (result == JOptionPane.YES_OPTION) {
 					currentPlayersDataBase.deletePlayer(currentPlayersDataBase
@@ -190,7 +192,7 @@ public class DatabasePanel extends JPanel {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String s = (String) JOptionPane.showInputDialog(null,
+				String s = (String) JOptionPane.showInputDialog(ElGrandeT.mainJFrame,
 						"Nombre de la Habilidad:", "Nueva Habilidad",
 						JOptionPane.PLAIN_MESSAGE);
 
@@ -218,7 +220,7 @@ public class DatabasePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String oldValue = (String) skillList.getSelectedValue();
-				String newValue = (String) JOptionPane.showInputDialog(null,
+				String newValue = (String) JOptionPane.showInputDialog(ElGrandeT.mainJFrame,
 						"Nombre de la Habilidad:", "Modificar Habilidad",
 						JOptionPane.PLAIN_MESSAGE, null, null, oldValue);
 
@@ -243,7 +245,7 @@ public class DatabasePanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int result = JOptionPane
 						.showConfirmDialog(
-								null,
+								ElGrandeT.mainJFrame,
 								"¿Está seguro de eliminar ésta habilidad de todos los jugadores?",
 								"Eliminar Habilidad", JOptionPane.YES_NO_OPTION);
 				if (result == JOptionPane.YES_OPTION) {
@@ -270,9 +272,12 @@ public class DatabasePanel extends JPanel {
 				// TODO: Ask if save first
 				try {
 					currentPlayersDataBase = new PlayersDataBase();
+					saveButton.setEnabled(true);
+					newSkillButton.setEnabled(true);
+					newPlayerButton.setEnabled(true);
 					loadCurrentPlayersDataBase();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),
+					JOptionPane.showMessageDialog(ElGrandeT.mainJFrame, e.getMessage(),
 							"Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -287,7 +292,7 @@ public class DatabasePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// Open a dialog and choose an actionObject File!
-				int retVal = fileChooser.showOpenDialog(null);
+				int retVal = fileChooser.showOpenDialog(ElGrandeT.mainJFrame);
 				if (retVal == JFileChooser.APPROVE_OPTION) {
 					File file = fileChooser.getSelectedFile();
 					fileNameTextField.setText(file.getPath());
@@ -298,8 +303,10 @@ public class DatabasePanel extends JPanel {
 										fileNameTextField.getText());
 						loadCurrentPlayersDataBase();
 						saveButton.setEnabled(true);
+						newSkillButton.setEnabled(true);
+						newPlayerButton.setEnabled(true);
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),
+						JOptionPane.showMessageDialog(ElGrandeT.mainJFrame, e.getMessage(),
 								"Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
@@ -315,7 +322,7 @@ public class DatabasePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// Open a dialog and choose an actionObject File!
-				int retVal = fileChooser.showSaveDialog(fileNameTextField);
+				int retVal = fileChooser.showSaveDialog(ElGrandeT.mainJFrame);
 				if (retVal == JFileChooser.APPROVE_OPTION) {
 					File file = fileChooser.getSelectedFile();
 					fileNameTextField.setText(file.getPath());
@@ -323,7 +330,7 @@ public class DatabasePanel extends JPanel {
 						currentPlayersDataBase.saveToFile(fileNameTextField
 								.getText());
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),
+						JOptionPane.showMessageDialog(ElGrandeT.mainJFrame, e.getMessage(),
 								"Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
@@ -346,9 +353,8 @@ public class DatabasePanel extends JPanel {
 		playersTable.setModel(new DefaultTableModel(
 				getRowsFromPlayers(currentPlayersDataBase.getPlayers()),
 				currentPlayersDataBase.getHeaders().toArray()));
-
-		newSkillButton.setEnabled(true);
-		newPlayerButton.setEnabled(true);
+		
+		
 	}
 
 	private Object[][] getRowsFromPlayers(List<Player> players) {

@@ -4,17 +4,15 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JTabbedPane;
 
 import view.ArmTeamPanel.NewTeamCreatedEvent;
 
 import model.GrandeTService;
-import model.GrandeTServiceMock;
 import model.IGrandeTService;
 
 public class ElGrandeT {
-	private JFrame jf;
+	public static JFrame mainJFrame;
 	private JTabbedPane tabPanel;
 	private static IGrandeTService grandeTService = new GrandeTService();
 	private ArmTeamPanel armTeamPanel;
@@ -22,8 +20,9 @@ public class ElGrandeT {
 	
 	public ElGrandeT(){
 		initializeFrame();
-		jf.pack();
-		jf.setVisible(true);
+		mainJFrame.pack();
+		mainJFrame.setLocationRelativeTo(null);
+		mainJFrame.setVisible(true);
 	}
 	
 	//returns the representation of the model
@@ -32,8 +31,8 @@ public class ElGrandeT {
 	}
 	
 	private void initializeFrame() {
-		jf = new JFrame("El Grande T");
-		jf.addWindowListener(new WindowAdapter(){
+		mainJFrame = new JFrame("El Grande T");
+		mainJFrame.addWindowListener(new WindowAdapter(){
 			@Override
 			public void windowClosing(WindowEvent arg0) {
 				System.exit(0);
@@ -57,7 +56,7 @@ public class ElGrandeT {
 		tabPanel.addTab("Resultados", null,resultsPanel, "Ver los resultados del armado de un equipo...");
 		tabPanel.addTab("Comparar", null, new ComparisonPanel(), "Comparar resultados de diferentes equipos...");
 		tabPanel.addTab("Base de Datos", null, new DatabasePanel(), "Administración de Bases de Datos de jugadores...");
-		jf.add(tabPanel);
+		mainJFrame.add(tabPanel);
 	}
 	
 	/**
