@@ -350,9 +350,18 @@ public class DatabasePanel extends JPanel {
 		List<String> skills = currentPlayersDataBase.getSkillList();
 		skillList.setListData(skills.toArray());
 
-		playersTable.setModel(new DefaultTableModel(
-				getRowsFromPlayers(currentPlayersDataBase.getPlayers()),
-				currentPlayersDataBase.getHeaders().toArray()));
+		playersTable.setModel(new DefaultTableModel(getRowsFromPlayers(currentPlayersDataBase.getPlayers()),
+				currentPlayersDataBase.getHeaders().toArray()){
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 8983499024113385242L;
+				//set table is read-Only
+				@Override
+				public boolean isCellEditable(int row, int column) {
+					return false;
+				}
+		});
 		
 		
 	}
