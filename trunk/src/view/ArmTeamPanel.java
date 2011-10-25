@@ -1,5 +1,8 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,6 +11,7 @@ import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -19,6 +23,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SpringLayout;
 
 import model.IGrandeTService;
 import model.dto.PlayersDataBase;
@@ -49,20 +54,26 @@ public class ArmTeamPanel extends JPanel {
 	}
 
 	private void generatePanel() {
-		this.setLayout(new GridLayout(0,2));
+		JPanel inputPanel = new JPanel();
+		inputPanel.setLayout(new BoxLayout(inputPanel,BoxLayout.Y_AXIS));
 		//adds lines
-		addDataLine();
-		addBudgetLine();
-		addSkillToMaxLine();
-		addFormationLine();
-		addNumberOfPlayersLine();
-		addArmTeamButton();
+		addDataLine(inputPanel);
+		addBudgetLine(inputPanel);
+		addSkillToMaxLine(inputPanel);
+		addFormationLine(inputPanel);
+		addNumberOfPlayersLine(inputPanel);
+		addArmTeamButton(inputPanel);
+		inputPanel.setAlignmentY(CENTER_ALIGNMENT);
+		this.add(inputPanel,BorderLayout.CENTER);
+
 	}
 
-	private void addDataLine() {
+	private void addDataLine(JPanel parentPanel) {
 		JPanel dataPanel = new JPanel();
-		this.add(new JLabel("Datos:"));
+		JLabel dataLabel = new JLabel("Datos:");
+		dataPanel.add(dataLabel);
 		dataFileNameTextField = new JTextField(25);
+		dataLabel.setLabelFor(dataFileNameTextField);
 		dataFileNameTextField.setText("Elige un archivo de Base de Datos...");
 		//dataFileNameTextField is read only
 		dataFileNameTextField.setEditable(false);
@@ -98,53 +109,63 @@ public class ArmTeamPanel extends JPanel {
 			
 		});
 		dataPanel.add(openButton);
-		this.add(dataPanel);
+		parentPanel.add(dataPanel);
 	}
 
-	private void addBudgetLine(){
+	private void addBudgetLine(JPanel parentPanel){
 		JPanel budgetPanel = new JPanel();
-		this.add(new JLabel("Presupuesto:"));
+		JLabel budgetLabel = new JLabel("Presupuesto:");
+		budgetPanel.add(budgetLabel);
 		SpinnerModel budgetModel = new SpinnerNumberModel(IGrandeTService.DEFAULT_BUDGET, 1000, Integer.MAX_VALUE, 500000);
 		budgetSpinner = new JSpinner();
+		budgetLabel.setLabelFor(budgetSpinner);
 		budgetSpinner.setModel(budgetModel);
 		budgetPanel.add(budgetSpinner);
-		this.add(budgetPanel);
+		parentPanel.add(budgetPanel);
 	}
 	
-	private void addSkillToMaxLine(){
+	private void addSkillToMaxLine(JPanel parentPanel){
 		JPanel skillToMaxPanel = new JPanel();
-		this.add(new JLabel("Objetivo a Maximizar:"));
+		JLabel skilToMaxLabel = new JLabel("Objetivo a Maximizar:");
+		skillToMaxPanel.add(skilToMaxLabel);
 		skillToMaxCombo = new JComboBox();
+		skilToMaxLabel.setLabelFor(skillToMaxCombo);
 		skillToMaxPanel.add(skillToMaxCombo);
-		this.add(skillToMaxPanel);
+		parentPanel.add(skillToMaxPanel);
 	}
 	
 
-	private void addFormationLine(){
+	private void addFormationLine(JPanel parentPanel){
 		JPanel formationPanel = new JPanel();
-
-		this.add(new JLabel("Formación:"));
+		JLabel formationLabel = new JLabel("Formación:");
+		formationPanel.add(formationLabel);
 		formationCombo = new JComboBox(IGrandeTService.FORMATION_LIST);
+		formationLabel.setLabelFor(formationCombo);
 		formationPanel.add(formationCombo);
-		this.add(formationPanel);
+		parentPanel.add(formationPanel);
 	}
 	
-	private void addNumberOfPlayersLine(){
+	private void addNumberOfPlayersLine(JPanel parentPanel){
 		JPanel numberPanel = new JPanel();
-		this.add(new JLabel("Cantidad a Seleccionar:"));
+		JLabel numberLabel = new JLabel("Cantidad a Seleccionar:");
+		numberPanel.add(numberLabel);
 		SpinnerModel numberModel = new SpinnerNumberModel(IGrandeTService.DEFAULT_NUMBER_OF_PLAYERS, 1, 30, 1);      
 		numberOfPlayersSpinner = new JSpinner();
+		numberLabel.setLabelFor(numberPanel);
+		
 		numberOfPlayersSpinner.setModel(numberModel);
 		numberPanel.add(numberOfPlayersSpinner);
-		this.add(numberPanel);
+		parentPanel.add(numberPanel);
+		//this.add(numberOfPlayersSpinner);
 	}
 	
-	private void addArmTeamButton(){
+	private void addArmTeamButton(JPanel parentPanel){
 		//leaves an empty space
 		this.add(new JLabel());
 		armTeamButton = new JButton("Generar Equipo");
 		//this button born in disable
 		armTeamButton.setEnabled(false);
+		armTeamButton.setAlignmentX(CENTER_ALIGNMENT);
 		armTeamButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -169,7 +190,7 @@ public class ArmTeamPanel extends JPanel {
 			}
 			
 		});
-		this.add(armTeamButton);
+		parentPanel.add(armTeamButton);
 	}
 	
 	// Declare the event. It must extend EventObject.
