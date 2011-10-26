@@ -2,7 +2,9 @@ package view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,8 +13,10 @@ import java.util.EventListener;
 import java.util.EventObject;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -24,6 +28,8 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 import model.IGrandeTService;
 import model.dto.PlayersDataBase;
@@ -54,9 +60,12 @@ public class ArmTeamPanel extends JPanel {
 	}
 
 	private void generatePanel() {
+		this.setLayout(new BorderLayout());
 		JPanel inputPanel = new JPanel();
 		inputPanel.setLayout(new BoxLayout(inputPanel,BoxLayout.Y_AXIS));
+		
 		//adds lines
+		addImageLine(inputPanel);
 		addDataLine(inputPanel);
 		addBudgetLine(inputPanel);
 		addSkillToMaxLine(inputPanel);
@@ -64,10 +73,18 @@ public class ArmTeamPanel extends JPanel {
 		addNumberOfPlayersLine(inputPanel);
 		addArmTeamButton(inputPanel);
 		inputPanel.setAlignmentY(CENTER_ALIGNMENT);
+		//inputPanel.setBorder(BorderFactory.createTitledBorder("Generación de Equipos"));
+		this.setBorder(BorderFactory.createEmptyBorder(100,10,100,10));
 		this.add(inputPanel,BorderLayout.CENTER);
-
 	}
 
+	private void addImageLine(JPanel parentPanel) {
+		JLabel label = new JLabel();
+		label.setIcon(new ImageIcon("src/resources/mago128.png"));
+		label.setAlignmentX(Component.CENTER_ALIGNMENT);
+		parentPanel.add(label);
+	}
+	
 	private void addDataLine(JPanel parentPanel) {
 		JPanel dataPanel = new JPanel();
 		JLabel dataLabel = new JLabel("Datos:");
@@ -161,7 +178,7 @@ public class ArmTeamPanel extends JPanel {
 	
 	private void addArmTeamButton(JPanel parentPanel){
 		//leaves an empty space
-		this.add(new JLabel());
+		parentPanel.add(new JLabel(" "));
 		armTeamButton = new JButton("Generar Equipo");
 		//this button born in disable
 		armTeamButton.setEnabled(false);
