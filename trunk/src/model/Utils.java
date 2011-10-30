@@ -11,7 +11,7 @@ public class Utils {
 	public static final String FIELD_SEPARATOR = "[||]";
 	public static final String FIELD_SEPARATOR_REGEXP = "\\[\\|\\|\\]";
 	
-	public static final String EXP_FILE_BAD_FORMED_MANDATORY = "Archivo mal formado - Faltan datos mandatorios";
+	public static final String EXP_FILE_BAD_FORMED_MANDATORY = "Archivo mal formado - Las primeras 3 columnas del archivo deben ser:\n\nNOMBRE\nPOSICION\nPRECIO";
 	public static final String EXP_FILE_BAD_FORMED_STAT = "Archivo mal formado - Problema en datos estadisticos";
 	public static final String EXP_INVALID_MODEL = "Modelo inválido";
 	public static final String EXP_PLAYER_ALREADY_EXISTS = "El jugador ya existe";
