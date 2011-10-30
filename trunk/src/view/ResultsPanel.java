@@ -8,8 +8,10 @@ import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.dto.ResultantTeam;
 
@@ -52,6 +54,8 @@ public class ResultsPanel extends JPanel {
 		JPanel toolBarPanel = new JPanel(new FlowLayout());
 		JButton openButton = new JButton("Abrir");
 		fileChooser = new JFileChooser();
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de texto (.txt)","txt"));
+		fileChooser.setAcceptAllFileFilterUsed(false);
 		openButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -65,7 +69,7 @@ public class ResultsPanel extends JPanel {
 						currentTeam = ElGrandeT.getGrandeTService().retrieveSavedTeam(fileNameTextField.getText());
 						loadCurrentTeam();
 					}catch (Exception e){
-						//TODO: check exception
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
@@ -86,7 +90,7 @@ public class ResultsPanel extends JPanel {
 					try{
 						currentTeam.saveToFile(fileNameTextField.getText());
 					}catch (Exception e){
-						//TODO: check exception
+						JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}

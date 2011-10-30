@@ -30,6 +30,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.IGrandeTService;
 import model.dto.PlayersDataBase;
@@ -97,6 +98,8 @@ public class ArmTeamPanel extends JPanel {
 		dataPanel.add(dataFileNameTextField);
 		JButton openButton = new JButton("Abrir");
 		fileChooser = new JFileChooser();
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de texto (.txt)","txt"));
+		fileChooser.setAcceptAllFileFilterUsed(false);
 		openButton.addActionListener(new ActionListener(){
 
 			@Override
@@ -202,7 +205,7 @@ public class ArmTeamPanel extends JPanel {
 					//Dispatches an event with the resultantTeam
 					fireMyEvent(new NewTeamCreatedEvent(this,resultantTeam));
 				} catch (Exception e2) {
-					// TODO: handle exception
+					JOptionPane.showMessageDialog(null, e2.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 			

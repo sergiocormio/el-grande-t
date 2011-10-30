@@ -21,6 +21,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 import model.dto.Player;
@@ -108,7 +109,7 @@ public class DatabasePanel extends JPanel {
 					try {
 						newPlayer.addSkill(skill);
 					} catch (SkillAlreadyExistsException e1) {
-						// TODO Auto-generated catch block
+						JOptionPane.showMessageDialog(null, e1.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 						e1.printStackTrace();
 					}
 				}
@@ -120,7 +121,7 @@ public class DatabasePanel extends JPanel {
 						loadCurrentPlayersDataBase();
 					}
 				} catch (Exception e2) {
-					// TODO: handle exception
+					JOptionPane.showMessageDialog(null, e2.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -206,7 +207,7 @@ public class DatabasePanel extends JPanel {
 						loadCurrentPlayersDataBase();
 					}
 				} catch (Exception ex) {
-					// TODO: handle exception
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
@@ -232,7 +233,7 @@ public class DatabasePanel extends JPanel {
 						loadCurrentPlayersDataBase();
 					}
 				} catch (Exception ex) {
-					// TODO: handle exception
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 
 			}
@@ -287,6 +288,8 @@ public class DatabasePanel extends JPanel {
 
 		JButton openButton = new JButton("Abrir");
 		fileChooser = new JFileChooser();
+		fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de texto (.txt)","txt"));
+		fileChooser.setAcceptAllFileFilterUsed(false);
 		openButton.addActionListener(new ActionListener() {
 
 			@Override
