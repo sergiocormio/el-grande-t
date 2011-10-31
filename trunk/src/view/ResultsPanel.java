@@ -110,7 +110,7 @@ public class ResultsPanel extends JPanel {
 	}
 
 	private void loadCurrentTeam(){
-		soccerFieldPanel.setTeamToDisplay(currentTeam.getPlayers());
+		soccerFieldPanel.setTeamToDisplay(currentTeam);
 		statisticsPanel.setStatisticalInformation(currentTeam.getStatisticalInformation());
 		saveButton.setEnabled(true);
 	}
