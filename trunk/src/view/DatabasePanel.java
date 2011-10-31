@@ -365,7 +365,9 @@ public class DatabasePanel extends JPanel {
 					return false;
 				}
 		});
-		
+		playersTable.getColumnModel().getColumn(0).setMinWidth(180);
+		playersTable.getColumnModel().getColumn(1).setMinWidth(30);
+		playersTable.getColumnModel().getColumn(2).setMinWidth(60);
 		
 	}
 
