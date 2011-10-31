@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import model.dto.Player;
+import model.dto.ResultantTeam;
 
 public class SoccerFieldPanel extends JPanel {
 
@@ -29,15 +30,16 @@ public class SoccerFieldPanel extends JPanel {
 		generatePanel();
 	}
 
-	public void setTeamToDisplay(List<Player> team) {
+	public void setTeamToDisplay(ResultantTeam resultantTeam) {
 		// clean all Labels first
 		cleanAllLabels();
-		for (Player p : team) {
+		String skillToMax = resultantTeam.getStatisticalInformation().getUserInputData().getSkillToMax();
+		for (Player p : resultantTeam.getPlayers()) {
 			JLabel label = new JLabel(p.getName(), new ImageIcon(
 					"src/resources/Player Icon 16x30.png"), JLabel.CENTER);
 			label.setVerticalTextPosition(JLabel.BOTTOM);
 			label.setHorizontalTextPosition(JLabel.CENTER);
-			label.setToolTipText("Precio: $" + p.getPrice());
+			label.setToolTipText("<html> <b>Precio: </b> $" + p.getPrice() + "<br/><b>" + skillToMax + "</b>: "+ p.getSkill(skillToMax).getValue() + "</html>");
 			switch (p.getPosition()) {
 			case ARQ:
 				label.setIcon(new ImageIcon(
