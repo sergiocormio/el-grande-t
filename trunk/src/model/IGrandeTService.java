@@ -15,6 +15,7 @@ public interface IGrandeTService {
 	public static int DEFAULT_BUDGET = 60000000;
 	public static int DEFAULT_NUMBER_OF_PLAYERS = 11;
 	public static String[] DEFAULT_HEADERS = { "NOMBRE","POSICION","PRECIO"};
+	public static Number DEFAULT_NUMBER_OF_PLAYERS_PER_CLUB = 3;
 	
 	
 	/**

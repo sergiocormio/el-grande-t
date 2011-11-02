@@ -72,16 +72,16 @@ public class GrandeTServiceMock implements IGrandeTService {
 	
 	private static List<Player> getTeamMock(){
 		List<Player> team = new ArrayList<Player>();
-		Player p = new Player("EL ARQUERO LOCO",Player.Position.ARQ,10000L);
+		Player p = new Player("EL ARQUERO LOCO",Player.Position.ARQ,"El CLUB LOCO", 10000L);
 		team.add(p);
 		
-		p = new Player("EL Defensa LOCO",Player.Position.DEF,10000L);
+		p = new Player("EL Defensa LOCO",Player.Position.DEF,"El CLUB LOCO", 10000L);
 		team.add(p);
 		
-		p = new Player("EL Volante LOCO",Player.Position.VOL,10000L);
+		p = new Player("EL Volante LOCO",Player.Position.VOL,"El CLUB LOCO", 10000L);
 		team.add(p);
 		
-		p = new Player("EL Delantero LOCO",Player.Position.DEL,10000L);
+		p = new Player("EL Delantero LOCO",Player.Position.DEL,"El CLUB LOCO", 10000L);
 		team.add(p);
 		
 		return team;

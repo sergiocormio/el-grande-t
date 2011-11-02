@@ -50,6 +50,7 @@ public class ArmTeamPanel extends JPanel {
 	private JComboBox formationCombo;
 	private JSpinner budgetSpinner;
 	private JSpinner numberOfPlayersSpinner;
+	private JSpinner numberOfPlayersPerClubSpinner;
 	private JButton armTeamButton;
 	private PlayersDataBase currentPlayersDBSelected;
 	
@@ -72,6 +73,8 @@ public class ArmTeamPanel extends JPanel {
 		addSkillToMaxLine(inputPanel);
 		addFormationLine(inputPanel);
 		addNumberOfPlayersLine(inputPanel);
+		addNumberOfPlayersPerClubLine(inputPanel);
+		
 		addArmTeamButton(inputPanel);
 		inputPanel.setAlignmentY(CENTER_ALIGNMENT);
 		//inputPanel.setBorder(BorderFactory.createTitledBorder("Generación de Equipos"));
@@ -169,12 +172,30 @@ public class ArmTeamPanel extends JPanel {
 		JPanel numberPanel = new JPanel();
 		JLabel numberLabel = new JLabel("Cantidad a Seleccionar:");
 		numberPanel.add(numberLabel);
-		SpinnerModel numberModel = new SpinnerNumberModel(IGrandeTService.DEFAULT_NUMBER_OF_PLAYERS, 1, 30, 1);      
+				
+		SpinnerModel numberModel = new SpinnerNumberModel(IGrandeTService.DEFAULT_NUMBER_OF_PLAYERS, 1, 30, 1);
 		numberOfPlayersSpinner = new JSpinner();
 		numberLabel.setLabelFor(numberPanel);
-		
 		numberOfPlayersSpinner.setModel(numberModel);
+		
 		numberPanel.add(numberOfPlayersSpinner);
+		parentPanel.add(numberPanel);
+		//this.add(numberOfPlayersSpinner);
+	}
+	
+	private void addNumberOfPlayersPerClubLine(JPanel parentPanel){
+		JPanel numberPanel = new JPanel();
+		
+		JLabel numberPerClubLabel = new JLabel("Cantidad de Jugadores por Club:");
+		
+		SpinnerModel numberPerClubModel = new SpinnerNumberModel(IGrandeTService.DEFAULT_NUMBER_OF_PLAYERS_PER_CLUB, 1, 22, 1);
+		numberOfPlayersPerClubSpinner = new JSpinner();
+		
+		numberPerClubLabel.setLabelFor(numberPanel);
+		numberOfPlayersPerClubSpinner.setModel(numberPerClubModel);
+				
+		numberPanel.add(numberPerClubLabel);
+		numberPanel.add(numberOfPlayersPerClubSpinner);
 		parentPanel.add(numberPanel);
 		//this.add(numberOfPlayersSpinner);
 	}
@@ -200,6 +221,10 @@ public class ArmTeamPanel extends JPanel {
 					userInputData.setFormation((String)formationCombo.getSelectedItem());
 					SpinnerNumberModel nm = (SpinnerNumberModel) numberOfPlayersSpinner.getModel();
 					userInputData.setNumberOfPlayers(nm.getNumber().intValue());
+					
+					SpinnerNumberModel nmPerClub = (SpinnerNumberModel) numberOfPlayersPerClubSpinner.getModel();
+					userInputData.setNumberOfPlayersPerClub(nmPerClub.getNumber().intValue());
+					
 					userInputData.setSkillToMax((String)skillToMaxCombo.getSelectedItem());
 					ResultantTeam resultantTeam = ElGrandeT.getGrandeTService().armTeam(userInputData);
 					//Dispatches an event with the resultantTeam

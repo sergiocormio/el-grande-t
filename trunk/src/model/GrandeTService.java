@@ -3,6 +3,7 @@ package model;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import model.dto.Player;
@@ -35,9 +36,11 @@ public class GrandeTService implements IGrandeTService{
 		BufferedReader bufferedReader = Utils.getBufferedReader(dataBaseFileName);
 		List<String> headers = PlayersLoader.loadHeaders(bufferedReader);
 		List<Player> playersDataBase = PlayersLoader.loadData(headers, bufferedReader);
+		Collection<String> clubs = PlayersLoader.loadClubs(playersDataBase);
+		
 		bufferedReader.close();
 		
-		return new PlayersDataBase(headers, playersDataBase, new File(dataBaseFileName));
+		return new PlayersDataBase(headers, playersDataBase, clubs, new File(dataBaseFileName));
 		
 	}
 

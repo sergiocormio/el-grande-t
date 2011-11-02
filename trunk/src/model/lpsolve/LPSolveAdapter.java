@@ -34,7 +34,10 @@ public class LPSolveAdapter{
 		   
 		    // add formation constraints
 		    solver = addFormationConstraint(solver, playersDataBase, userInputData);
-		    		    
+		    		   
+		    // add clubs constraints
+		    solver = addClubsConstraint(solver, playersDataBase, userInputData);
+		    
 		    // set objective function (MAX some skill)
 		    String objFunction = "";
 		    String skillToMax = userInputData.getSkillToMax();
@@ -62,6 +65,37 @@ public class LPSolveAdapter{
 	}
 
 	
+	private static LpSolve addClubsConstraint(LpSolve solver, List<Player> playersDataBase, UserInputData userInputData) throws LpSolveException {
+
+		for (String club : userInputData.getPlayersDataBase().getClubs()) {
+			
+			solver = addClubConstraint(solver, playersDataBase, club, userInputData);
+		}
+		
+		return solver;
+	}
+
+
+	private static LpSolve addClubConstraint(LpSolve solver, List<Player> playersDataBase, String club, UserInputData userInputData) throws LpSolveException {
+
+		 String playersLine = "";
+		 for (Player player : playersDataBase) {
+			if(player.getClub().equals(club)){
+				playersLine += "1 ";				}
+			else{
+				playersLine += "0 ";
+			}
+		
+		 }
+		 String srtNumberOfPlayersPerClub = String.valueOf(userInputData.getNumberOfPlayersPerClub());
+		 Double d = new Double(srtNumberOfPlayersPerClub);
+		 
+		 solver.strAddConstraint(playersLine, LpSolve.LE, d.doubleValue());
+		
+		 return solver;
+	}
+
+
 	private static LpSolve addFormationConstraint(LpSolve solver, List<Player> playersDataBase, UserInputData userInputData) throws NumberFormatException, LpSolveException {
 		
 		String formation = userInputData.getFormation();

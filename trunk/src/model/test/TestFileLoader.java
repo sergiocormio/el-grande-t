@@ -3,6 +3,7 @@ package model.test;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 
 import model.Utils;
@@ -76,6 +77,7 @@ public class TestFileLoader extends TestCase{
 		BufferedReader bufferedReader = Utils.getBufferedReader(DB_FILENAME);
 		List<String> headers = PlayersLoader.loadHeaders(bufferedReader);
 		List<Player> players = PlayersLoader.loadData(headers, bufferedReader);
+		Collection<String> clubs = PlayersLoader.loadClubs(players);
 		
 		assertEquals(400, players.size());
 		
@@ -83,7 +85,7 @@ public class TestFileLoader extends TestCase{
 			System.out.println(player.getName());
 		}
 		
-		PlayersDataBase dataBase = new PlayersDataBase(headers, players, new File(DB_FILENAME_TO_SAVE));
+		PlayersDataBase dataBase = new PlayersDataBase(headers, players, clubs, new File(DB_FILENAME_TO_SAVE));
 		
 		dataBase.saveToFile();
 		
@@ -116,6 +118,7 @@ public class TestFileLoader extends TestCase{
 		
 		List<String> headers = PlayersLoader.loadHeaders(bufferedReader);
 		List<Player> players = PlayersLoader.loadData(headers, bufferedReader);
+		Collection<String> clubs = PlayersLoader.loadClubs(players);
 		
 		assertNotNull(information);
 		
@@ -125,7 +128,7 @@ public class TestFileLoader extends TestCase{
 			System.out.println(player.getName());
 		}
 		
-		PlayersDataBase dataBase = new PlayersDataBase(headers, players, new File(RT_FILENAME_TO_SAVE));;
+		PlayersDataBase dataBase = new PlayersDataBase(headers, players, clubs, new File(RT_FILENAME_TO_SAVE));;
 		information.getUserInputData().setPlayersDataBase(dataBase);
 		
 		ResultantTeam team = new ResultantTeam(new File(RT_FILENAME_TO_SAVE), players, information);;
