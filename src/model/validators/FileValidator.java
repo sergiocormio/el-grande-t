@@ -15,7 +15,7 @@ public class FileValidator {
 	 */
 	public static void validateMandatoryColumns(String[] fields) throws FileBadFormedException {
 		
-		if(fields.length < 3){
+		if(fields.length < 4){
 			throw new FileBadFormedException(Utils.EXP_FILE_BAD_FORMED_MANDATORY);
 		}
 	}
@@ -49,7 +49,7 @@ public class FileValidator {
 	public static void validateIntegerFields(String[] fields) throws NumberFormatException {
 		
 		// ignore the first and the second field (name and position)
-		for (int i = 2; i < fields.length; i++) {
+		for (int i = 3; i < fields.length; i++) {
 			try{
 				Integer.parseInt(fields[i]);	
 			}

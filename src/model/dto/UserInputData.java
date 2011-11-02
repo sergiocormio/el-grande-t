@@ -8,6 +8,7 @@ public class UserInputData implements Serializable {
 	private String skillToMax;
 	private String formation;
 	private int numberOfPlayers;
+	private int numberOfPlayersPerClub;
 	
 	
 	public PlayersDataBase getPlayersDataBase() {
@@ -42,6 +43,15 @@ public class UserInputData implements Serializable {
 		this.numberOfPlayers = numberOfPlayers;
 	}
 	
+		
+	public int getNumberOfPlayersPerClub() {
+		return numberOfPlayersPerClub;
+	}
+
+	public void setNumberOfPlayersPerClub(int numberOfPlayersPerClub) {
+		this.numberOfPlayersPerClub = numberOfPlayersPerClub;
+	}
+
 	@Override
 	public String serialize() {
 		// TODO Auto-generated method stub

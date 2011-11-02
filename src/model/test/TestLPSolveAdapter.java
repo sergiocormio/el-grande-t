@@ -110,7 +110,7 @@ public class TestLPSolveAdapter extends TestCase {
 
 	private Player createPlayerMock(int id, Position pos, long price, int skillValue) throws SkillAlreadyExistsException {
 		
-		Player player = new Player(String.valueOf(id), pos, price);
+		Player player = new Player(String.valueOf(id), pos,"El CLUB LOCO", price);
 		
 		Skill skill = new Skill();
 		skill.setName("ATAQUE");

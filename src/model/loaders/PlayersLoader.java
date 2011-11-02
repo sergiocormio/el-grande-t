@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import model.Utils;
 import model.dto.Player;
@@ -15,6 +17,7 @@ import model.exceptions.InvalidPlayerPositionException;
 import model.exceptions.SkillAlreadyExistsException;
 import model.validators.FileValidator;
 
+import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Predicate;
 
@@ -27,7 +30,8 @@ public class PlayersLoader {
 		String[] headerFields = processHeader(bufferedReader);
 			
 		List<Player> playersDataBase = processData(bufferedReader, headerFields);
-			
+		
+		
 		/**
 		 * no hace falta que este ordenada porque puedo generar las constraints validando al posicion de cada player
 		 * 
@@ -158,11 +162,11 @@ public class PlayersLoader {
 	
 	private static Player createPlayer(String[] fields, String[] headerFields) throws SkillAlreadyExistsException {
 		
-		Player player = new Player(fields[0], Position.valueOf(fields[1]), 
-				new Long(fields[2]).longValue());
+		Player player = new Player(fields[0], Position.valueOf(fields[1]), fields[2],
+				new Long(fields[3]).longValue());
 				
 		//adding skills
-		for (int i = 3; i < fields.length; i++) {
+		for (int i = 4; i < fields.length; i++) {
 			Skill skill = new Skill();
 			skill.setName(headerFields[i]);
 			skill.setValue(Integer.parseInt(fields[i]));
@@ -214,5 +218,20 @@ public class PlayersLoader {
 	}
 
 
-	
+	public static Collection<String> loadClubs(List<Player> playersDataBase) {
+		final Set<String> clubs = new HashSet<String>();
+		
+		CollectionUtils.forAllDo(playersDataBase, new Closure() {
+			
+			@Override
+			public void execute(Object arg0) {
+				clubs.add(((Player)arg0).getClub());
+			}
+		});
+		return clubs;
+		
+	}
+
+
+
 }

@@ -12,14 +12,16 @@ public class Player implements Serializable{
 
 	private String name;
 	private Position position;
+	private String club;
 	private long price;
 	
 	private Map<String, Skill> skills;
 	
-	public Player(String name, Position position, long price){
+	public Player(String name, Position position,String club, long price){
 		skills = new HashMap<String, Skill>();
 		this.name = name;
 		this.position = position;
+		this.club = club;
 		this.price = price;
 	}
 
@@ -72,6 +74,16 @@ public class Player implements Serializable{
 		return skills;
 	}
 
+	
+	
+	public String getClub() {
+		return club;
+	}
+
+	public void setClub(String club) {
+		this.club = club;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		
@@ -80,6 +92,7 @@ public class Player implements Serializable{
 		return this.name.equalsIgnoreCase(anotherPlayer.getName());
 		
 	}
+	
 
 	public void updateSkill(String oldSkillName, String newSkillName) {
 		if(skills.containsKey(oldSkillName)){

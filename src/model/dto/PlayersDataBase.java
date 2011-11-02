@@ -3,6 +3,7 @@ package model.dto;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import model.Fileable;
@@ -18,24 +19,27 @@ public class PlayersDataBase implements Fileable, Serializable {
 	private File file;
 	private List<Player> players;
 	private List<String> headers;
+	private Collection<String> clubs;
 	
 	
 	public PlayersDataBase(){
 		players = new ArrayList<Player>();
 		headers = new ArrayList<String>();
+		clubs = new ArrayList<String>();
 		for(String h: IGrandeTService.DEFAULT_HEADERS){
 			headers.add(h);
 		}
 	}
 	
-	public PlayersDataBase(List<String> headers, List<Player> players, File file){
+	public PlayersDataBase(List<String> headers, List<Player> players,Collection<String> clubs, File file){
 		this.headers = headers;
 		this.players = players;
+		this.clubs = clubs;
 		this.file = file;
 	}
 	
 	public List<String> getSkillList(){
-		return headers.subList(3, headers.size());
+		return headers.subList(4, headers.size());
 	}
 	
 	public void addPlayer(Player p) throws PlayerAlreadyExistsException{
@@ -152,6 +156,8 @@ public class PlayersDataBase implements Fileable, Serializable {
 		playerLine += Utils.FIELD_SEPARATOR;
 		playerLine += player.getPosition().name();
 		playerLine += Utils.FIELD_SEPARATOR;
+		playerLine += player.getClub();
+		playerLine += Utils.FIELD_SEPARATOR;		
 		playerLine += player.getPrice();
 		playerLine += Utils.FIELD_SEPARATOR;
 		
@@ -183,6 +189,16 @@ public class PlayersDataBase implements Fileable, Serializable {
 	public List<String> getHeaders() {
 		return headers;
 	}
+
+	public Collection<String> getClubs() {
+		return clubs;
+	}
+
+	public void setClubs(Collection<String> clubs) {
+		this.clubs = clubs;
+	}
+	
+	
 	
 	
 }

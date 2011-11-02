@@ -115,6 +115,8 @@ public class ResultantTeam implements Fileable, Serializable{
 		playerLine += Utils.FIELD_SEPARATOR;
 		playerLine += player.getPosition().name();
 		playerLine += Utils.FIELD_SEPARATOR;
+		playerLine += player.getClub();
+		playerLine += Utils.FIELD_SEPARATOR;
 		playerLine += player.getPrice();
 		playerLine += Utils.FIELD_SEPARATOR;
 		
