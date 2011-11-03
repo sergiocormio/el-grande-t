@@ -1,11 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -27,9 +23,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SpringLayout;
-import javax.swing.border.Border;
-import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import model.IGrandeTService;
@@ -49,7 +42,7 @@ public class ArmTeamPanel extends JPanel {
 	private JComboBox skillToMaxCombo;
 	private JComboBox formationCombo;
 	private JSpinner budgetSpinner;
-	private JSpinner numberOfPlayersSpinner;
+	private JComboBox numberOfPlayersCombo;
 	private JSpinner numberOfPlayersPerClubSpinner;
 	private JButton armTeamButton;
 	private PlayersDataBase currentPlayersDBSelected;
@@ -169,18 +162,13 @@ public class ArmTeamPanel extends JPanel {
 	}
 	
 	private void addNumberOfPlayersLine(JPanel parentPanel){
-		JPanel numberPanel = new JPanel();
-		JLabel numberLabel = new JLabel("Cantidad a Seleccionar:");
-		numberPanel.add(numberLabel);
-				
-		SpinnerModel numberModel = new SpinnerNumberModel(IGrandeTService.DEFAULT_NUMBER_OF_PLAYERS, 1, 30, 1);
-		numberOfPlayersSpinner = new JSpinner();
-		numberLabel.setLabelFor(numberPanel);
-		numberOfPlayersSpinner.setModel(numberModel);
 		
-		numberPanel.add(numberOfPlayersSpinner);
-		parentPanel.add(numberPanel);
-		//this.add(numberOfPlayersSpinner);
+		JPanel numberOfPlayersPanel = new JPanel();
+		JLabel numberOfPlayersLabel = new JLabel("Cantidad a Seleccionar:");
+		numberOfPlayersPanel.add(numberOfPlayersLabel);
+		numberOfPlayersCombo = new JComboBox(IGrandeTService.NUMBER_OF_PLAYERS_LIST);
+		numberOfPlayersPanel.add(numberOfPlayersCombo);
+		parentPanel.add(numberOfPlayersPanel);
 	}
 	
 	private void addNumberOfPlayersPerClubLine(JPanel parentPanel){
@@ -219,9 +207,7 @@ public class ArmTeamPanel extends JPanel {
 					userInputData.setBudget(bm.getNumber().longValue());
 					userInputData.setPlayersDataBase(currentPlayersDBSelected);
 					userInputData.setFormation((String)formationCombo.getSelectedItem());
-					SpinnerNumberModel nm = (SpinnerNumberModel) numberOfPlayersSpinner.getModel();
-					userInputData.setNumberOfPlayers(nm.getNumber().intValue());
-					
+					userInputData.setNumberOfPlayers(Integer.valueOf((String)numberOfPlayersCombo.getSelectedItem()));
 					SpinnerNumberModel nmPerClub = (SpinnerNumberModel) numberOfPlayersPerClubSpinner.getModel();
 					userInputData.setNumberOfPlayersPerClub(nmPerClub.getNumber().intValue());
 					
