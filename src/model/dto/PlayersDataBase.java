@@ -10,6 +10,8 @@ import model.Fileable;
 import model.IGrandeTService;
 import model.Serializable;
 import model.Utils;
+import model.exceptions.ClubAlreadyExistsException;
+import model.exceptions.ClubNotExistException;
 import model.exceptions.OldSkillNotExistException;
 import model.exceptions.PlayerAlreadyExistsException;
 import model.exceptions.SkillAlreadyExistsException;
@@ -199,6 +201,30 @@ public class PlayersDataBase implements Fileable, Serializable {
 	}
 	
 	
+	public void addClub(String club) throws ClubAlreadyExistsException{
+		
+		boolean ok = this.clubs.add(club);
+		if(!ok)
+			throw new ClubAlreadyExistsException();
+	}
+	
+	
+	public void deleteClub(String club){
+		this.clubs.remove(club);
+	}
+	
+	public void modifyClub(String oldClub, String newClub) throws ClubNotExistException, ClubAlreadyExistsException{
+		
+		boolean containsOldClub = this.clubs.contains(oldClub);
+		boolean containsNewClub = this.clubs.contains(newClub);
+		if(!containsOldClub)
+			throw new ClubNotExistException();
+		if(containsNewClub)
+			throw new ClubAlreadyExistsException();
+		
+		deleteClub(oldClub);
+		addClub(newClub);
+	}
 	
 	
 }

@@ -101,7 +101,7 @@ public class DatabasePanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Player newPlayer = new Player("Nuevo Jugador", Position.ARQ,
-						"AGREGAR COMBO DE CLUBES", 1000000L);
+						"Seleccionar un club", 1000000L);
 				for (String skillName : currentPlayersDataBase.getSkillList()) {
 					Skill skill = new Skill();
 					skill.setName(skillName);
