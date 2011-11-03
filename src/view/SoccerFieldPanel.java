@@ -4,7 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -39,7 +38,7 @@ public class SoccerFieldPanel extends JPanel {
 					"src/resources/Player Icon 16x30.png"), JLabel.CENTER);
 			label.setVerticalTextPosition(JLabel.BOTTOM);
 			label.setHorizontalTextPosition(JLabel.CENTER);
-			label.setToolTipText("<html> <b>Precio: </b> $" + p.getPrice() + "<br/><b>" + skillToMax + "</b>: "+ p.getSkill(skillToMax).getValue() + "<br/><b>" + "EQUIPO" + "</b>: " + p.getClub() + "</html>");
+			label.setToolTipText("<html> <b>Precio: </b> $" + p.getPrice() + "<br/><b>" + skillToMax + "</b>: "+ p.getSkill(skillToMax).getValue() + "<br/><b>" + "Equipo" + "</b>: " + p.getClub() + "</html>");
 			switch (p.getPosition()) {
 			case ARQ:
 				label.setIcon(new ImageIcon(

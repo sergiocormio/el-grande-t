@@ -12,6 +12,7 @@ import model.exceptions.InvalidModelException;
 
 public interface IGrandeTService {
 	public static String[] FORMATION_LIST = { "4-4-2","4-3-3","4-2-4","5-3-2"};
+	public static String[] NUMBER_OF_PLAYERS_LIST = { "11","15","22"};
 	public static int DEFAULT_BUDGET = 60000000;
 	public static int DEFAULT_NUMBER_OF_PLAYERS = 11;
 	public static String[] DEFAULT_HEADERS = { "NOMBRE","POSICION","PRECIO"};
