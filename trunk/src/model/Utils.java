@@ -18,7 +18,9 @@ public class Utils {
 	public static final String EXP_INVALID_MODEL = "Modelo inv�lido";
 	public static final String EXP_PLAYER_ALREADY_EXISTS = "El jugador ya existe";
 	public static final String EXP_SKILL_ALREADY_EXISTS = "La habilidad ya existe";
-	public static final String EXP_OLD_SKILL_NOT_EXISTS = "La habilidad a modificar no existe";;
+	public static final String EXP_OLD_SKILL_NOT_EXISTS = "La habilidad a modificar no existe";
+	public static final String EXP_CLUB_ALREADY_EXISTS = "El club ya existe";
+	public static final String EXP_CLUB_NOT_EXIST = "El club a modificar no existe";
 	
 	
 	public static PrintWriter getPrintWriter(String fileName) {
