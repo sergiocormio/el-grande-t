@@ -41,7 +41,7 @@ public class PlayersDataBase implements Fileable, Serializable {
 	}
 	
 	public List<String> getSkillList(){
-		return headers.subList(4, headers.size());
+		return headers.subList(IGrandeTService.DEFAULT_HEADERS.length, headers.size());
 	}
 	
 	public void addPlayer(Player p) throws PlayerAlreadyExistsException{

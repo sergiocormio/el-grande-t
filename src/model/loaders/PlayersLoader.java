@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import model.IGrandeTService;
 import model.Utils;
 import model.dto.Player;
 import model.dto.Skill;
@@ -166,7 +167,7 @@ public class PlayersLoader {
 				new Long(fields[3]).longValue());
 				
 		//adding skills
-		for (int i = 4; i < fields.length; i++) {
+		for (int i = IGrandeTService.DEFAULT_HEADERS.length; i < fields.length; i++) {
 			Skill skill = new Skill();
 			skill.setName(headerFields[i]);
 			skill.setValue(Integer.parseInt(fields[i]));

@@ -24,6 +24,7 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
+import model.IGrandeTService;
 import model.dto.Player;
 import model.dto.PlayersDataBase;
 import model.dto.Skill;
@@ -368,6 +369,7 @@ public class DatabasePanel extends JPanel {
 		playersTable.getColumnModel().getColumn(0).setMinWidth(180);
 		playersTable.getColumnModel().getColumn(1).setMinWidth(30);
 		playersTable.getColumnModel().getColumn(2).setMinWidth(60);
+		playersTable.getColumnModel().getColumn(3).setMinWidth(60);
 		
 	}
 
@@ -381,14 +383,16 @@ public class DatabasePanel extends JPanel {
 	}
 
 	private Object[] getRowFromPlayer(Player p) {
-		Object[] result = new Object[3 + p.getSkills().size()];
+		int minQuantityOfHeaders = IGrandeTService.DEFAULT_HEADERS.length;
+		Object[] result = new Object[minQuantityOfHeaders + p.getSkills().size()];
 		result[0] = p.getName();
 		result[1] = p.getPosition();
-		result[2] = p.getPrice();
+		result[2] = p.getClub();
+		result[3] = p.getPrice();
 
 		List<String> skills = currentPlayersDataBase.getSkillList();
-		for (int i = 3; i < p.getSkills().size() + 3; i++) {
-			result[i] = p.getSkill(skills.get(i - 3)).getValue();
+		for (int i = minQuantityOfHeaders; i < p.getSkills().size() + minQuantityOfHeaders; i++) {
+			result[i] = p.getSkill(skills.get(i - minQuantityOfHeaders)).getValue();
 		}
 
 		return result;
