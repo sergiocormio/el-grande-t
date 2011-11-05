@@ -1,5 +1,6 @@
 package model.validators;
 
+import model.IGrandeTService;
 import model.Utils;
 import model.dto.Player.Position;
 import model.exceptions.FileBadFormedException;
@@ -15,7 +16,7 @@ public class FileValidator {
 	 */
 	public static void validateMandatoryColumns(String[] fields) throws FileBadFormedException {
 		
-		if(fields.length < 4){
+		if(fields.length < IGrandeTService.DEFAULT_HEADERS.length){
 			throw new FileBadFormedException(Utils.EXP_FILE_BAD_FORMED_MANDATORY);
 		}
 	}
@@ -48,7 +49,7 @@ public class FileValidator {
 	 */
 	public static void validateIntegerFields(String[] fields) throws NumberFormatException {
 		
-		// ignore the first and the second field (name and position)
+		// ignore the first, second and thirst field (name, position and team)
 		for (int i = 3; i < fields.length; i++) {
 			try{
 				Integer.parseInt(fields[i]);	
