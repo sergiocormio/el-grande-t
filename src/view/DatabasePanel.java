@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
@@ -45,6 +46,10 @@ public class DatabasePanel extends JPanel {
 	private JButton newSkillButton;
 	private JButton deleteSkillButton;
 	private JButton modifySkillButton;
+	private JList teamList;
+	private JButton newTeamButton;
+	private JButton deleteTeamButton;
+	private JButton modifyTeamButton;
 	private JTable playersTable;
 	private JButton newPlayerButton;
 	private JButton deletePlayerButton;
@@ -56,11 +61,14 @@ public class DatabasePanel extends JPanel {
 
 	private void generatePanel() {
 		this.setLayout(new BorderLayout());
-		addToolBar(); // Toolbar should place in NORTH of the main panel.
-		JPanel auxPanel = new JPanel(new BorderLayout());
-		this.add(auxPanel, BorderLayout.CENTER);
-		addSkillsPanel(auxPanel);
-		addPlayersPanel(auxPanel);
+		addToolBar(); //Toolbar should place in NORTH of the main panel.
+		JPanel centerPanel = new JPanel(new BorderLayout());
+		this.add(centerPanel, BorderLayout.CENTER);
+		JPanel centerNorthPanel = new JPanel(new FlowLayout());
+		centerPanel.add(centerNorthPanel,BorderLayout.NORTH);
+		addSkillsPanel(centerNorthPanel);
+		addTeamsPanel(centerNorthPanel);
+		addPlayersPanel(centerPanel);
 
 	}
 
@@ -261,7 +269,109 @@ public class DatabasePanel extends JPanel {
 			}
 		});
 		skillsPanel.add(deleteSkillButton);
-		parentPanel.add(skillsPanel, BorderLayout.NORTH);
+		parentPanel.add(skillsPanel);
+	}
+	
+	private void addTeamsPanel(JPanel parentPanel) {
+		JPanel teamsPanel = new JPanel(new FlowLayout());
+		teamsPanel.setBorder(new TitledBorder("Equipos"));
+		teamList = new JList(new Vector<String>()); // data has type Object[]
+		teamList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		teamList.setLayoutOrientation(JList.VERTICAL);
+		teamList.setVisibleRowCount(-1);
+		teamList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting() == false) {
+
+					if (teamList.getSelectedIndex() == -1) {
+						// No selection, disable buttons.
+						modifyTeamButton.setEnabled(false);
+						deleteTeamButton.setEnabled(false);
+					} else {
+						// Selection, enable the buttons.
+						modifyTeamButton.setEnabled(true);
+						deleteTeamButton.setEnabled(true);
+					}
+				}
+			}
+		});
+		JScrollPane listScroller = new JScrollPane(teamList);
+		listScroller.setPreferredSize(new Dimension(150, 80));
+		teamsPanel.add(listScroller);
+		//NEW TEAM BUTTON
+		newTeamButton = new JButton("Agregar");
+		newTeamButton.setEnabled(false);
+		newTeamButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String s = (String) JOptionPane.showInputDialog(ElGrandeT.mainJFrame,
+						"Nombre del Equipo:", "Nuevo Equipo",
+						JOptionPane.PLAIN_MESSAGE);
+
+				try {
+					// If a string was returned, say so.
+					if ((s != null) && (s.length() > 0)) {
+						currentPlayersDataBase.addClub(s.toUpperCase());
+						loadCurrentPlayersDataBase();
+					}
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+
+		});
+		teamsPanel.add(newTeamButton);
+		//MODIFY TEAM BUTTON
+		modifyTeamButton = new JButton("Modificar");
+		modifyTeamButton.setEnabled(false);
+		modifyTeamButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String oldValue = (String) teamList.getSelectedValue();
+				String newValue = (String) JOptionPane.showInputDialog(ElGrandeT.mainJFrame,
+						"Nombre del Equipo:", "Modificar Equipo",
+						JOptionPane.PLAIN_MESSAGE, null, null, oldValue);
+
+				try {
+					// If a string was returned, say so.
+					if ((newValue != null) && (newValue.length() > 0)) {
+						currentPlayersDataBase.modifyClub(oldValue, newValue.toUpperCase());
+						loadCurrentPlayersDataBase();
+					}
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}
+
+			}
+		});
+		teamsPanel.add(modifyTeamButton);
+		//DELETE TEAM BUTTON
+		//TODO: Definir que pasa si elimino un equipo, se eliminan los jugadores?
+		deleteTeamButton = new JButton("Eliminar");
+		deleteTeamButton.setEnabled(false);
+		deleteTeamButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				int result = JOptionPane
+						.showConfirmDialog(
+								ElGrandeT.mainJFrame,
+								"¿Está seguro de eliminar ésta equipo?",
+								"Eliminar Equipo", JOptionPane.YES_NO_OPTION);
+				if (result == JOptionPane.YES_OPTION) {
+					String selectedTeam = (String) teamList.getSelectedValue();
+					currentPlayersDataBase.deleteClub(selectedTeam);
+					loadCurrentPlayersDataBase();
+				}
+
+			}
+		});
+		teamsPanel.add(deleteTeamButton);
+		
+		parentPanel.add(teamsPanel);
 	}
 
 	private void addToolBar() {
@@ -276,6 +386,7 @@ public class DatabasePanel extends JPanel {
 					currentPlayersDataBase = new PlayersDataBase();
 					saveButton.setEnabled(true);
 					newSkillButton.setEnabled(true);
+					newTeamButton.setEnabled(true);
 					newPlayerButton.setEnabled(true);
 					loadCurrentPlayersDataBase();
 				} catch (Exception e) {
@@ -351,9 +462,15 @@ public class DatabasePanel extends JPanel {
 	}
 
 	private void loadCurrentPlayersDataBase() {
+		//set skill list values
 		List<String> skills = currentPlayersDataBase.getSkillList();
 		skillList.setListData(skills.toArray());
 
+		//set teamList values
+		Collection<String> teams =currentPlayersDataBase.getClubs();
+		teamList.setListData(teams.toArray());
+		
+		//set playersTable
 		playersTable.setModel(new DefaultTableModel(getRowsFromPlayers(currentPlayersDataBase.getPlayers()),
 				currentPlayersDataBase.getHeaders().toArray()){
 				/**
