@@ -209,10 +209,14 @@ public class PlayersDataBase implements Fileable, Serializable {
 	}
 	
 	
-	public void deleteClub(String club){
+	public void deleteClub(final String club){
+		
+		Collection<Player> playersByClub = searchPlayersByClub(club);
+		this.players.removeAll(playersByClub);
+		
 		this.clubs.remove(club);
 	}
-	
+
 	public void modifyClub(String oldClub, String newClub) throws ClubNotExistException, ClubAlreadyExistsException{
 		
 		boolean containsOldClub = this.clubs.contains(oldClub);
@@ -221,10 +225,30 @@ public class PlayersDataBase implements Fileable, Serializable {
 			throw new ClubNotExistException();
 		if(containsNewClub)
 			throw new ClubAlreadyExistsException();
-		
-		deleteClub(oldClub);
+
+		for (Player player : players) {
+			if(player.getClub().equals(oldClub)){
+				player.setClub(newClub);
+			}
+			
+		}
+		this.clubs.remove(oldClub);
 		addClub(newClub);
 	}
+
+
+	private Collection<Player> searchPlayersByClub(final String club) {
+		
+		Collection<Player> playersByClub = new ArrayList<Player>(); 
+			
+		for (Player player : players) {
+			if(player.getClub().equals(club)){
+				playersByClub.add(player);
+			}
+		}
+		return playersByClub;
+	}
+	
 	
 	
 }
