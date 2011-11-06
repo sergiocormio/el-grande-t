@@ -4,11 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.TitledBorder;
 
 import model.dto.Player;
 import model.dto.ResultantTeam;
@@ -24,6 +26,7 @@ public class SoccerFieldPanel extends JPanel {
 	private JPanel defPanel;
 	private JPanel volPanel;
 	private JPanel delPanel;
+	private JPanel substitutesPanel;
 
 	public SoccerFieldPanel() {
 		generatePanel();
@@ -33,7 +36,7 @@ public class SoccerFieldPanel extends JPanel {
 		// clean all Labels first
 		cleanAllLabels();
 		String skillToMax = resultantTeam.getStatisticalInformation().getUserInputData().getSkillToMax();
-		for (Player p : resultantTeam.getPlayers()) {
+		for (Player p : resultantTeam.getStarters()) {
 			JLabel label = new JLabel(p.getName(), new ImageIcon(
 					"src/resources/Player Icon 16x30.png"), JLabel.CENTER);
 			label.setVerticalTextPosition(JLabel.BOTTOM);
@@ -61,6 +64,21 @@ public class SoccerFieldPanel extends JPanel {
 			}
 		}
 		organizeTeamLabelsPanel();
+		
+		List<Player> substitutes = resultantTeam.getSubstitutes();
+		if(substitutes.size()>0){
+			substitutesPanel.setBorder(new TitledBorder("Suplentes:"));
+		}else{
+			substitutesPanel.setBorder(null);
+		}
+		
+		for (Player p : substitutes) {
+			JLabel label = new JLabel(p.getName());
+			label.setVerticalTextPosition(JLabel.BOTTOM);
+			label.setHorizontalTextPosition(JLabel.CENTER);
+			label.setToolTipText("<html> <b>Precio: </b> $" + p.getPrice() + "<br/><b>" + skillToMax + "</b>: "+ p.getSkill(skillToMax).getValue() + "<br/><b>" + "Equipo" + "</b>: " + p.getClub() +  "<br/><b>" + "Posición" + "</b>: " + p.getPosition() +"</html>");
+			substitutesPanel.add(label);
+		}
 	}
 
 	private void organizeTeamLabelsPanel() {
@@ -77,6 +95,7 @@ public class SoccerFieldPanel extends JPanel {
 		defPanel.removeAll();
 		volPanel.removeAll();
 		delPanel.removeAll();
+		substitutesPanel.removeAll();
 	}
 
 	private void generatePanel() {
@@ -109,8 +128,12 @@ public class SoccerFieldPanel extends JPanel {
 		delPanel = new JPanel(new FlowLayout());
 		delPanel.setOpaque(false);
 		
-
 		imagePanel.add(teamLabelsPanel, BorderLayout.CENTER);
 		this.add(imagePanel);
+
+		substitutesPanel = new JPanel();
+		substitutesPanel.setLayout(new BoxLayout(substitutesPanel,BoxLayout.Y_AXIS));
+		this.add(substitutesPanel, BorderLayout.EAST);
+		
 	}
 }

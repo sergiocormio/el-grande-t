@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
+import model.dto.Player.Position;
+
 public class Utils {
 	
 	public static final String FIELD_SEPARATOR = "[||]";
@@ -53,6 +55,21 @@ public class Utils {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public static int getQuantityOfPlayersByPosition(Position position,String formation){
+		int result = 0;
+		String[] strings = formation.split("-");
+		if (position ==Position.ARQ){
+			result = 1;
+		}else if (position ==Position.DEF){
+			result = Integer.parseInt(strings[0]);
+		}else if (position ==Position.VOL){
+			result = Integer.parseInt(strings[1]);
+		}else if (position ==Position.DEL){
+			result = Integer.parseInt(strings[2]);
+		}
 		
+		return result;
 	}
 }

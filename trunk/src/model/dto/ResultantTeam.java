@@ -3,11 +3,15 @@ package model.dto;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import model.Fileable;
 import model.Serializable;
 import model.Utils;
+import model.dto.Player.Position;
 
 public class ResultantTeam implements Fileable, Serializable{
 
@@ -36,6 +40,51 @@ public class ResultantTeam implements Fileable, Serializable{
 
 	public List<Player> getPlayers() {
 		return players;
+	}
+	
+	public List<Player> getSubstitutes() {
+		//TODO: Players minus Starters
+		List<Player> resultList = new ArrayList<Player>();
+		resultList.addAll(players);
+		for(Player p : getStarters()){
+			resultList.remove(p);
+		}
+		return resultList;
+	}
+	
+	public List<Player> getStarters() {
+		List<Player> resultList = new ArrayList<Player>();
+		Collections.sort(players, new Comparator<Player>(){
+			@Override
+			public int compare(Player o1, Player o2) {
+				Skill skill1 = o1.getSkill(getStatisticalInformation().getUserInputData().getSkillToMax());
+				Skill skill2 = o2.getSkill(getStatisticalInformation().getUserInputData().getSkillToMax());
+				return skill2.getValue()-skill1.getValue();
+			}
+		});
+		String formation = getStatisticalInformation().getUserInputData().getFormation();
+		if(players.size()>11){
+			resultList.addAll(getFirstPlayersByPosition(players,Utils.getQuantityOfPlayersByPosition(Position.ARQ, formation),Position.ARQ));
+			resultList.addAll(getFirstPlayersByPosition(players,Utils.getQuantityOfPlayersByPosition(Position.VOL, formation),Position.VOL));
+			resultList.addAll(getFirstPlayersByPosition(players,Utils.getQuantityOfPlayersByPosition(Position.DEF, formation),Position.DEF));
+			resultList.addAll(getFirstPlayersByPosition(players,Utils.getQuantityOfPlayersByPosition(Position.DEL, formation),Position.DEL));
+			return resultList;
+		}else{
+			return players;
+		}
+	}
+	
+	private List<Player> getFirstPlayersByPosition(List<Player> list,int quantity,Position pos){
+		int i = 0;
+		List<Player> resultList = new ArrayList<Player>();
+		while (resultList.size()<quantity && i<list.size()){
+			Player auxPlayer = list.get(i);
+			if(auxPlayer.getPosition()==pos){
+				resultList.add(auxPlayer);
+			}
+			i++;
+		}
+		return resultList;
 	}
 
 	@Override
