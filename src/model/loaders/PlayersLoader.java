@@ -90,6 +90,8 @@ public class PlayersLoader {
 		
 		FileValidator.validateMandatoryColumns(fields);
 		
+		FileValidator.validateColumnNames(fields);
+		
 		/**
 		 * TODO add more header validators, creating new private methods,
 		 * @see FileValidators

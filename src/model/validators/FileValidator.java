@@ -58,6 +58,17 @@ public class FileValidator {
 				throw e;
 			}
 		}		
+	}
+
+
+	public static void validateColumnNames(String[] fields) throws FileBadFormedException {
+		
+		if(!fields[0].equals(IGrandeTService.DEFAULT_HEADERS[0]) ||
+			!fields[1].equals(IGrandeTService.DEFAULT_HEADERS[1]) ||
+			!fields[2].equals(IGrandeTService.DEFAULT_HEADERS[2]) ||
+			!fields[3].equals(IGrandeTService.DEFAULT_HEADERS[3]))
+			
+			 throw new FileBadFormedException(Utils.EXP_FILE_BAD_FORMED_MANDATORY);
 	}	
 	
 }
