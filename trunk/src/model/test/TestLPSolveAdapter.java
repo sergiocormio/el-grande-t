@@ -41,11 +41,9 @@ public class TestLPSolveAdapter extends TestCase {
 		List<Player> players = resultantTeam.getPlayers();
 		
 		assertEquals(players.size(), 11);
-		int i = 1;
+	
 		for (Player player : players) {
-			
 			assertEquals(player.getSkill("ATAQUE").getValue() , 10 );
-
 		}
 		
 		assertEquals(players.get(0).getName() , "1" );

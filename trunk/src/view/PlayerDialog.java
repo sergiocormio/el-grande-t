@@ -11,10 +11,12 @@ import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,6 +24,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -34,6 +37,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+
+import resources.ResourcesFactory;
 
 
 import model.dto.Player;
@@ -54,12 +59,15 @@ public class PlayerDialog extends JDialog {
 	private JSpinner currentSkillValue;
 	private JList skillList;
 	private Map<String,Integer> skillValuesMap;
+	private JComboBox clubCombo;
+	private Collection<String> clubs;
 	private Boolean userSaved;
 
 
-	public PlayerDialog(JFrame fr, Player player){
+	public PlayerDialog(JFrame fr, Player player, Collection<String> clubs){
 		super(fr,"Jugador",true);
 		this.player = player;
+		this.clubs = new HashSet<String>(clubs);
 		userSaved = false;
 		content = getContentPane();
 		content.setLayout(new BoxLayout(content,BoxLayout.Y_AXIS));
@@ -68,6 +76,7 @@ public class PlayerDialog extends JDialog {
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		content.add(label);
 		addPlayerName();
+		addClubs();
 		addPosition();
 		addPrice();
 		addSkills();
@@ -200,15 +209,51 @@ public class PlayerDialog extends JDialog {
 		content.add(p);
 	}
 	
+	private void addClubs() {
+		JPanel p = new JPanel(new FlowLayout());
+		p.add(new JLabel("Equipo: "));
+		clubCombo = new JComboBox(clubs.toArray());
+		clubCombo.setSelectedItem(player.getClub());
+		p.add(clubCombo);
+		JButton addClubButton = new JButton("Agregar",ResourcesFactory.getAddIcon());
+		addClubButton.addActionListener(new ActionListener(){
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String s = (String) JOptionPane.showInputDialog(ElGrandeT.mainJFrame,
+						"Nombre del Equipo:", "Nuevo Equipo",
+						JOptionPane.PLAIN_MESSAGE);
+
+				try {
+					// If a string was returned, say so.
+					if ((s != null) && (s.length() > 0)) {
+						clubs.add(s.toUpperCase());
+						clubCombo.setModel(new DefaultComboBoxModel(clubs.toArray()));
+						if(clubCombo.getSelectedIndex()==-1){
+							clubCombo.setSelectedItem(s);
+						}else{
+							clubCombo.setSelectedItem(player.getClub());
+						}
+					}
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+				}	
+			}
+		});
+		p.add(addClubButton);
+		p.setAlignmentX(CENTER_ALIGNMENT);
+		content.add(p);
+	}
+	
 	private void addButtons() {
 		JPanel p = new JPanel(new FlowLayout());
-		JButton saveButton = new JButton("Guardar");
+		JButton saveButton = new JButton("Guardar",ResourcesFactory.getSaveIcon());
 		saveButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//Saves all information inside player instance
 				player.setName(playerNameField.getText());
+				player.setClub((String) clubCombo.getSelectedItem());
 				player.setPosition((Position) positionCombo.getSelectedItem());
 				player.setPrice(((Double)priceSpinner.getValue()).longValue());
 				//Sets new skill values

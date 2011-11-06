@@ -25,6 +25,8 @@ import javax.swing.SpinnerModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import resources.ResourcesFactory;
+
 import model.IGrandeTService;
 import model.dto.PlayersDataBase;
 import model.dto.ResultantTeam;
@@ -88,11 +90,11 @@ public class ArmTeamPanel extends JPanel {
 		dataPanel.add(dataLabel);
 		dataFileNameTextField = new JTextField(25);
 		dataLabel.setLabelFor(dataFileNameTextField);
-		dataFileNameTextField.setText("Elige un archivo de Base de Datos...");
+		dataFileNameTextField.setText("Seleccione un archivo de Base de Datos...");
 		//dataFileNameTextField is read only
 		dataFileNameTextField.setEditable(false);
 		dataPanel.add(dataFileNameTextField);
-		JButton openButton = new JButton("Abrir");
+		JButton openButton = new JButton("Abrir",ResourcesFactory.getOpenIcon());
 		fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de texto (.txt)","txt"));
 		fileChooser.setAcceptAllFileFilterUsed(false);
@@ -191,7 +193,7 @@ public class ArmTeamPanel extends JPanel {
 	private void addArmTeamButton(JPanel parentPanel){
 		//leaves an empty space
 		parentPanel.add(new JLabel(" "));
-		armTeamButton = new JButton("Generar Equipo");
+		armTeamButton = new JButton("Generar Equipo",ResourcesFactory.getGenerateIcon());
 		//this button born in disable
 		armTeamButton.setEnabled(false);
 		armTeamButton.setAlignmentX(CENTER_ALIGNMENT);

@@ -1,7 +1,5 @@
 package model.exceptions;
 
-import model.Utils;
-
 public class InvalidPlayerPositionException extends Exception {
 
 	/**

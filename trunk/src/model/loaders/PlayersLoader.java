@@ -20,7 +20,7 @@ import model.validators.FileValidator;
 
 import org.apache.commons.collections.Closure;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Predicate;
+//import org.apache.commons.collections.Predicate;
 
 public class PlayersLoader {
 
@@ -181,7 +181,7 @@ public class PlayersLoader {
 
 
 
-
+/*
 	@SuppressWarnings("unchecked")
 	private static List<Player> clasifyPlayer(List<Player> playersDataBase) {
 		
@@ -200,7 +200,6 @@ public class PlayersLoader {
 		return clasifiedPlayers;
 	}
 
-
 	@SuppressWarnings("unchecked")
 	private static Collection<Player> filterDataBaseByPosition(List<Player> playersDataBase, final Position position) {
 		
@@ -217,6 +216,7 @@ public class PlayersLoader {
 	
 		return filteredCollection;
 	}
+ */
 
 
 	public static Collection<String> loadClubs(List<Player> playersDataBase) {

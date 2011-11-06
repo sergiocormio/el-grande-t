@@ -2,20 +2,11 @@ package model.loaders;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import model.Utils;
 import model.dto.StatisticalInformation;
 import model.dto.UserInputData;
-import model.dto.Player.Position;
 import model.exceptions.FileBadFormedException;
-import model.exceptions.InvalidPlayerPositionException;
-import model.validators.FileValidator;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.Predicate;
 
 public class StatsInformationLoader {
 
