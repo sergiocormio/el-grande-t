@@ -64,10 +64,12 @@ public class SoccerFieldPanel extends JPanel {
 			}
 		}
 		organizeTeamLabelsPanel();
-		
+		//Renders Substitutes...
 		List<Player> substitutes = resultantTeam.getSubstitutes();
 		if(substitutes.size()>0){
-			substitutesPanel.setBorder(new TitledBorder("Suplentes:"));
+			substitutesPanel.setBorder(new TitledBorder("Suplentes"));
+			JLabel bank = new JLabel(new ImageIcon("src/resources/Banco de Suplentes_small.jpg"));
+			substitutesPanel.add(bank);
 		}else{
 			substitutesPanel.setBorder(null);
 		}
