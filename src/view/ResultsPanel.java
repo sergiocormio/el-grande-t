@@ -13,6 +13,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import resources.ResourcesFactory;
+
 import model.dto.ResultantTeam;
 
 public class ResultsPanel extends JPanel {
@@ -52,7 +54,7 @@ public class ResultsPanel extends JPanel {
 
 	private void addToolBar() {
 		JPanel toolBarPanel = new JPanel(new FlowLayout());
-		JButton openButton = new JButton("Abrir");
+		JButton openButton = new JButton("Abrir",ResourcesFactory.getOpenIcon());
 		fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de texto (.txt)","txt"));
 		fileChooser.setAcceptAllFileFilterUsed(false);
@@ -76,7 +78,7 @@ public class ResultsPanel extends JPanel {
 		});
 		toolBarPanel.add(openButton);
 		
-		saveButton = new JButton("Guardar");
+		saveButton = new JButton("Guardar",ResourcesFactory.getSaveIcon());
 		saveButton.setEnabled(false);
 		saveButton.addActionListener(new ActionListener(){
 
@@ -97,7 +99,7 @@ public class ResultsPanel extends JPanel {
 		});
 		toolBarPanel.add(saveButton);
 		fileNameTextField = new JTextField(25);
-		fileNameTextField.setText("Elige un archivo de Resultados...");
+		fileNameTextField.setText("Seleccione un archivo de Resultados...");
 		//It is read only
 		fileNameTextField.setEditable(false);
 		toolBarPanel.add(fileNameTextField);

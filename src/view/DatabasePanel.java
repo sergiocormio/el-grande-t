@@ -25,11 +25,14 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
+import resources.ResourcesFactory;
+
 import model.IGrandeTService;
 import model.dto.Player;
 import model.dto.PlayersDataBase;
 import model.dto.Skill;
 import model.dto.Player.Position;
+import model.exceptions.ClubAlreadyExistsException;
 import model.exceptions.SkillAlreadyExistsException;
 
 public class DatabasePanel extends JPanel {
@@ -71,6 +74,14 @@ public class DatabasePanel extends JPanel {
 		addPlayersPanel(centerPanel);
 
 	}
+	
+	private void checkNewClubOfPlayer(Player newPlayer) throws ClubAlreadyExistsException{
+		//Maybe new player has a new Club...
+		String playerClub = newPlayer.getClub();
+		if(playerClub!=null && !currentPlayersDataBase.getClubs().contains(playerClub)){
+			currentPlayersDataBase.addClub(playerClub);
+		}
+	}
 
 	private void addPlayersPanel(JPanel parentPanel) {
 		// Grid Players Panel
@@ -104,7 +115,7 @@ public class DatabasePanel extends JPanel {
 		// South players panel
 		JPanel playersToolPanel = new JPanel(new FlowLayout());
 		playersToolPanel.setBorder(new TitledBorder("Jugadores"));
-		newPlayerButton = new JButton("Agregar");
+		newPlayerButton = new JButton("Agregar",ResourcesFactory.getAddIcon());
 		newPlayerButton.setEnabled(false);
 		newPlayerButton.addActionListener(new ActionListener() {
 			@Override
@@ -122,10 +133,11 @@ public class DatabasePanel extends JPanel {
 						e1.printStackTrace();
 					}
 				}
-				PlayerDialog dialog = new PlayerDialog(ElGrandeT.mainJFrame, newPlayer);
+				PlayerDialog dialog = new PlayerDialog(ElGrandeT.mainJFrame, newPlayer, currentPlayersDataBase.getClubs());
 				dialog.setVisible(true);
 				try {
 					if(dialog.getUserSaved()){
+						checkNewClubOfPlayer(newPlayer);
 						currentPlayersDataBase.addPlayer(newPlayer);
 						loadCurrentPlayersDataBase();
 					}
@@ -135,21 +147,26 @@ public class DatabasePanel extends JPanel {
 			}
 		});
 		playersToolPanel.add(newPlayerButton);
-		modifyPlayerButton = new JButton("Modificar");
+		modifyPlayerButton = new JButton("Modificar",ResourcesFactory.getEditIcon());
 		modifyPlayerButton.setEnabled(false);
 		modifyPlayerButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				PlayerDialog dialog = new PlayerDialog(ElGrandeT.mainJFrame, currentPlayersDataBase.getPlayers().get(
-						playersTable.getSelectedRow()));
+				Player player = currentPlayersDataBase.getPlayers().get(playersTable.getSelectedRow());
+				PlayerDialog dialog = new PlayerDialog(ElGrandeT.mainJFrame,player,currentPlayersDataBase.getClubs());
 				dialog.setVisible(true);
-				if(dialog.getUserSaved()){
-					loadCurrentPlayersDataBase();
+				try {
+					if(dialog.getUserSaved()){
+						checkNewClubOfPlayer(player);
+						loadCurrentPlayersDataBase();
+					}
+				} catch (Exception e2) {
+					JOptionPane.showMessageDialog(null, e2.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		playersToolPanel.add(modifyPlayerButton);
-		deletePlayerButton = new JButton("Eliminar");
+		deletePlayerButton = new JButton("Eliminar",ResourcesFactory.getRemoveIcon());
 		deletePlayerButton.setEnabled(false);
 		deletePlayerButton.addActionListener(new ActionListener() {
 			@Override
@@ -196,7 +213,7 @@ public class DatabasePanel extends JPanel {
 		JScrollPane listScroller = new JScrollPane(skillList);
 		listScroller.setPreferredSize(new Dimension(150, 80));
 		skillsPanel.add(listScroller);
-		newSkillButton = new JButton("Agregar");
+		newSkillButton = new JButton("Agregar",ResourcesFactory.getAddIcon());
 		newSkillButton.setEnabled(false);
 		newSkillButton.addActionListener(new ActionListener() {
 
@@ -223,7 +240,7 @@ public class DatabasePanel extends JPanel {
 
 		});
 		skillsPanel.add(newSkillButton);
-		modifySkillButton = new JButton("Modificar");
+		modifySkillButton = new JButton("Modificar",ResourcesFactory.getEditIcon());
 		modifySkillButton.setEnabled(false);
 		modifySkillButton.addActionListener(new ActionListener() {
 
@@ -248,7 +265,7 @@ public class DatabasePanel extends JPanel {
 			}
 		});
 		skillsPanel.add(modifySkillButton);
-		deleteSkillButton = new JButton("Eliminar");
+		deleteSkillButton = new JButton("Eliminar",ResourcesFactory.getRemoveIcon());
 		deleteSkillButton.setEnabled(false);
 		deleteSkillButton.addActionListener(new ActionListener() {
 			@Override
@@ -300,7 +317,7 @@ public class DatabasePanel extends JPanel {
 		listScroller.setPreferredSize(new Dimension(150, 80));
 		teamsPanel.add(listScroller);
 		//NEW TEAM BUTTON
-		newTeamButton = new JButton("Agregar");
+		newTeamButton = new JButton("Agregar",ResourcesFactory.getAddIcon());
 		newTeamButton.setEnabled(false);
 		newTeamButton.addActionListener(new ActionListener() {
 
@@ -325,7 +342,7 @@ public class DatabasePanel extends JPanel {
 		});
 		teamsPanel.add(newTeamButton);
 		//MODIFY TEAM BUTTON
-		modifyTeamButton = new JButton("Modificar");
+		modifyTeamButton = new JButton("Modificar",ResourcesFactory.getEditIcon());
 		modifyTeamButton.setEnabled(false);
 		modifyTeamButton.addActionListener(new ActionListener() {
 
@@ -351,7 +368,7 @@ public class DatabasePanel extends JPanel {
 		teamsPanel.add(modifyTeamButton);
 		//DELETE TEAM BUTTON
 		//TODO: Definir que pasa si elimino un equipo, se eliminan los jugadores?
-		deleteTeamButton = new JButton("Eliminar");
+		deleteTeamButton = new JButton("Eliminar",ResourcesFactory.getRemoveIcon());
 		deleteTeamButton.setEnabled(false);
 		deleteTeamButton.addActionListener(new ActionListener() {
 			@Override
@@ -376,7 +393,7 @@ public class DatabasePanel extends JPanel {
 
 	private void addToolBar() {
 		JPanel toolBarPanel = new JPanel(new FlowLayout());
-		JButton newButton = new JButton("Nuevo");
+		JButton newButton = new JButton("Nuevo",ResourcesFactory.getNewIcon());
 		newButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -384,11 +401,11 @@ public class DatabasePanel extends JPanel {
 				// TODO: Ask if save first
 				try {
 					currentPlayersDataBase = new PlayersDataBase();
+					loadCurrentPlayersDataBase();
 					saveButton.setEnabled(true);
 					newSkillButton.setEnabled(true);
 					newTeamButton.setEnabled(true);
 					newPlayerButton.setEnabled(true);
-					loadCurrentPlayersDataBase();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(ElGrandeT.mainJFrame, e.getMessage(),
 							"Error", JOptionPane.ERROR_MESSAGE);
@@ -398,7 +415,7 @@ public class DatabasePanel extends JPanel {
 		});
 		toolBarPanel.add(newButton);
 
-		JButton openButton = new JButton("Abrir");
+		JButton openButton = new JButton("Abrir",ResourcesFactory.getOpenIcon());
 		fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de texto (.txt)","txt"));
 		fileChooser.setAcceptAllFileFilterUsed(false);
@@ -419,6 +436,7 @@ public class DatabasePanel extends JPanel {
 						loadCurrentPlayersDataBase();
 						saveButton.setEnabled(true);
 						newSkillButton.setEnabled(true);
+						newTeamButton.setEnabled(true);
 						newPlayerButton.setEnabled(true);
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(ElGrandeT.mainJFrame, e.getMessage(),
@@ -430,7 +448,7 @@ public class DatabasePanel extends JPanel {
 		});
 		toolBarPanel.add(openButton);
 
-		saveButton = new JButton("Guardar");
+		saveButton = new JButton("Guardar",ResourcesFactory.getSaveIcon());
 		saveButton.setEnabled(false);
 		saveButton.addActionListener(new ActionListener() {
 
@@ -454,7 +472,7 @@ public class DatabasePanel extends JPanel {
 		toolBarPanel.add(saveButton);
 		fileNameTextField = new JTextField(30);
 		fileNameTextField
-				.setText("Elige un archivo de Base de Datos de Jugadores...");
+				.setText("Seleccione un archivo de Base de Datos de Jugadores...");
 		// It is read only
 		fileNameTextField.setEditable(false);
 		toolBarPanel.add(fileNameTextField);
@@ -467,7 +485,7 @@ public class DatabasePanel extends JPanel {
 		skillList.setListData(skills.toArray());
 
 		//set teamList values
-		Collection<String> teams =currentPlayersDataBase.getClubs();
+		Collection<String> teams = currentPlayersDataBase.getClubs();
 		teamList.setListData(teams.toArray());
 		
 		//set playersTable
