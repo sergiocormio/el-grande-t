@@ -31,4 +31,8 @@ public class ResourcesFactory {
 	public static Icon getGenerateIcon(){
 		return new ImageIcon("src/resources/mario_32.png");
 	}
+	
+	public static Icon getCancelIcon(){
+		return new ImageIcon("src/resources/cancel_16.png");
+	}
 }
