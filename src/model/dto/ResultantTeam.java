@@ -54,6 +54,7 @@ public class ResultantTeam implements Fileable, Serializable{
 	
 	public List<Player> getStarters() {
 		List<Player> resultList = new ArrayList<Player>();
+		//sorts players by Skill DESC!
 		Collections.sort(players, new Comparator<Player>(){
 			@Override
 			public int compare(Player o1, Player o2) {
