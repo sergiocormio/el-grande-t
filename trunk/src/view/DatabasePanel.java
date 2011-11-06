@@ -173,7 +173,7 @@ public class DatabasePanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int result = JOptionPane.showConfirmDialog(ElGrandeT.mainJFrame,
 						"¿Está seguro que desea eliminar a éste jugador de la lista?",
-						"Eliminar Jugador", JOptionPane.YES_NO_OPTION);
+						"Eliminar Jugador", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 				if (result == JOptionPane.YES_OPTION) {
 					currentPlayersDataBase.deletePlayer(currentPlayersDataBase
 							.getPlayers().get(playersTable.getSelectedRow()));
@@ -274,7 +274,7 @@ public class DatabasePanel extends JPanel {
 						.showConfirmDialog(
 								ElGrandeT.mainJFrame,
 								"¿Está seguro de eliminar ésta habilidad de todos los jugadores?",
-								"Eliminar Habilidad", JOptionPane.YES_NO_OPTION);
+								"Eliminar Habilidad", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 				if (result == JOptionPane.YES_OPTION) {
 					String selectedSkill = (String) skillList
 							.getSelectedValue();
@@ -377,7 +377,7 @@ public class DatabasePanel extends JPanel {
 						.showConfirmDialog(
 								ElGrandeT.mainJFrame,
 								"¿Está seguro de eliminar ésta equipo?",
-								"Eliminar Equipo", JOptionPane.YES_NO_OPTION);
+								"Eliminar Equipo", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 				if (result == JOptionPane.YES_OPTION) {
 					String selectedTeam = (String) teamList.getSelectedValue();
 					currentPlayersDataBase.deleteClub(selectedTeam);

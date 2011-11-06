@@ -268,7 +268,7 @@ public class PlayerDialog extends JDialog {
 			}
 		});
 		p.add(saveButton);
-		JButton cancelButton = new JButton("Cancelar");
+		JButton cancelButton = new JButton("Cancelar",ResourcesFactory.getCancelIcon());
 		cancelButton.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
