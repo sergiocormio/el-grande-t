@@ -377,7 +377,7 @@ public class DatabasePanel extends JPanel {
 				int result = JOptionPane
 						.showConfirmDialog(
 								ElGrandeT.mainJFrame,
-								"¿Está seguro de eliminar ésta equipo?",
+								"¿Está seguro que desea eliminar este equipo?\n(Se eliminarán también todos los jugadores del equipo)",
 								"Eliminar Equipo", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
 				if (result == JOptionPane.YES_OPTION) {
 					String selectedTeam = (String) teamList.getSelectedValue();
@@ -524,7 +524,7 @@ public class DatabasePanel extends JPanel {
 		result[0] = p.getName();
 		result[1] = p.getPosition();
 		result[2] = p.getClub();
-		result[3] = p.getPrice();
+		result[3] = Utils.displayLikeMoney(p.getPrice());
 
 		List<String> skills = currentPlayersDataBase.getSkillList();
 		for (int i = minQuantityOfHeaders; i < p.getSkills().size() + minQuantityOfHeaders; i++) {

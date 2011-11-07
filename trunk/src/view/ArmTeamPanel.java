@@ -132,7 +132,7 @@ public class ArmTeamPanel extends JPanel {
 
 	private void addBudgetLine(JPanel parentPanel){
 		JPanel budgetPanel = new JPanel();
-		JLabel budgetLabel = new JLabel("Presupuesto:");
+		JLabel budgetLabel = new JLabel("Presupuesto: $");
 		budgetPanel.add(budgetLabel);
 		SpinnerModel budgetModel = new SpinnerNumberModel(IGrandeTService.DEFAULT_BUDGET, 1000, Integer.MAX_VALUE, 500000);
 		budgetSpinner = new JSpinner();
