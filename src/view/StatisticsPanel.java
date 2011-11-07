@@ -21,6 +21,7 @@ public class StatisticsPanel extends JPanel {
 	private JLabel budgetLabel;
 	private JLabel finalCostLabel;
 	private JLabel totalProfitLabel;
+	private JLabel difCostLabel;
 	
 	public StatisticsPanel(){
 		generatePanel();
@@ -33,6 +34,8 @@ public class StatisticsPanel extends JPanel {
 		budgetLabel.setText("Presupuesto: $" + statisticalInfo.getUserInputData().getBudget());
 		finalCostLabel.setText("Costo final: $" + statisticalInfo.getFinalCost());
 		totalProfitLabel.setText("Beneficio obtenido: " + statisticalInfo.getTotalProfit());
+		long dif = statisticalInfo.getUserInputData().getBudget() - statisticalInfo.getFinalCost();
+		difCostLabel.setText("Presupuesto sobrante: $"+ dif);
 	}
 	
 	private void generatePanel() {
@@ -49,6 +52,8 @@ public class StatisticsPanel extends JPanel {
 		totalProfitLabel = new JLabel("Beneficio obtenido: ");
 		totalProfitLabel.setForeground(new Color(50,50,255));
 		this.add(totalProfitLabel);
+		difCostLabel = new  JLabel("Presupuesto sobrante: ");
+		this.add(difCostLabel);
 	}
 	
 }

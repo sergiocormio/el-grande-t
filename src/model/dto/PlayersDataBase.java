@@ -202,10 +202,12 @@ public class PlayersDataBase implements Fileable, Serializable {
 	
 	
 	public void addClub(String club) throws ClubAlreadyExistsException{
-		
-		boolean ok = this.clubs.add(club);
-		if(!ok)
-			throw new ClubAlreadyExistsException();
+		for (String c : this.clubs) {
+			if(c.equalsIgnoreCase(club)){
+				throw new ClubAlreadyExistsException();
+			}
+		}
+		this.clubs.add(club);
 	}
 	
 	

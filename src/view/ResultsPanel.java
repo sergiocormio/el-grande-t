@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import resources.ResourcesFactory;
 
+import model.Utils;
 import model.dto.ResultantTeam;
 
 public class ResultsPanel extends JPanel {
@@ -88,7 +89,7 @@ public class ResultsPanel extends JPanel {
 				int retVal = fileChooser.showSaveDialog(fileNameTextField);
 				if(retVal == JFileChooser.APPROVE_OPTION){
 					File file = fileChooser.getSelectedFile();
-					fileNameTextField.setText(file.getPath());
+					fileNameTextField.setText(Utils.getFileNameWithTxtExtension(file.getPath()));
 					try{
 						currentTeam.saveToFile(fileNameTextField.getText());
 					}catch (Exception e){

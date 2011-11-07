@@ -226,7 +226,7 @@ public class PlayerDialog extends JDialog {
 				try {
 					// If a string was returned, say so.
 					if ((s != null) && (s.length() > 0)) {
-						clubs.add(s.toUpperCase());
+						clubs.add(s);
 						clubCombo.setModel(new DefaultComboBoxModel(clubs.toArray()));
 						if(clubCombo.getSelectedIndex()==-1){
 							clubCombo.setSelectedItem(s);

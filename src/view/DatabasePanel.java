@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import resources.ResourcesFactory;
 
 import model.IGrandeTService;
+import model.Utils;
 import model.dto.Player;
 import model.dto.PlayersDataBase;
 import model.dto.Skill;
@@ -227,7 +228,7 @@ public class DatabasePanel extends JPanel {
 					// If a string was returned, say so.
 					if ((s != null) && (s.length() > 0)) {
 						Skill skill = new Skill();
-						skill.setName(s.toUpperCase());
+						skill.setName(s);
 						skill.setValue(0);
 						currentPlayersDataBase.addSkillToAllPlayers(skill);
 						loadCurrentPlayersDataBase();
@@ -255,7 +256,7 @@ public class DatabasePanel extends JPanel {
 					// If a string was returned, say so.
 					if ((newValue != null) && (newValue.length() > 0)) {
 						currentPlayersDataBase.updateSkillNameToAllPlayers(
-								oldValue, newValue.toUpperCase());
+								oldValue, newValue);
 						loadCurrentPlayersDataBase();
 					}
 				} catch (Exception ex) {
@@ -330,7 +331,7 @@ public class DatabasePanel extends JPanel {
 				try {
 					// If a string was returned, say so.
 					if ((s != null) && (s.length() > 0)) {
-						currentPlayersDataBase.addClub(s.toUpperCase());
+						currentPlayersDataBase.addClub(s);
 						loadCurrentPlayersDataBase();
 					}
 				} catch (Exception ex) {
@@ -356,7 +357,7 @@ public class DatabasePanel extends JPanel {
 				try {
 					// If a string was returned, say so.
 					if ((newValue != null) && (newValue.length() > 0)) {
-						currentPlayersDataBase.modifyClub(oldValue, newValue.toUpperCase());
+						currentPlayersDataBase.modifyClub(oldValue, newValue);
 						loadCurrentPlayersDataBase();
 					}
 				} catch (Exception ex) {
@@ -458,7 +459,7 @@ public class DatabasePanel extends JPanel {
 				int retVal = fileChooser.showSaveDialog(ElGrandeT.mainJFrame);
 				if (retVal == JFileChooser.APPROVE_OPTION) {
 					File file = fileChooser.getSelectedFile();
-					fileNameTextField.setText(file.getPath());
+					fileNameTextField.setText(Utils.getFileNameWithTxtExtension(file.getPath()));
 					try {
 						currentPlayersDataBase.saveToFile(fileNameTextField
 								.getText());
