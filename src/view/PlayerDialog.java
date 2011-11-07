@@ -151,7 +151,7 @@ public class PlayerDialog extends JDialog {
 	
 	private void addPrice() {
 		JPanel p = new JPanel(new FlowLayout());
-		p.add(new JLabel("Precio: "));
+		p.add(new JLabel("Precio: $"));
 		SpinnerModel priceModel = new SpinnerNumberModel(player.getPrice(), 0, Integer.MAX_VALUE, 1000);
 		priceSpinner = new JSpinner();
 		priceSpinner.setModel(priceModel);

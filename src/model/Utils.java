@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
+import java.text.NumberFormat;
 
 import model.dto.Player.Position;
 
@@ -51,7 +52,6 @@ public class Utils {
 			System.out.println("File: " + fileName + " not found!");
 			throw e;
 		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
@@ -79,5 +79,11 @@ public class Utils {
 			result += ".txt";	
 		}
 		return result;
+	}
+	
+	public static String displayLikeMoney(Object payment){
+		NumberFormat nf = NumberFormat.getCurrencyInstance();
+		nf.setMaximumFractionDigits(0);
+	    return nf.format(payment);
 	}
 }

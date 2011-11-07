@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import model.Utils;
 import model.dto.StatisticalInformation;
 
 public class StatisticsPanel extends JPanel {
@@ -31,11 +32,11 @@ public class StatisticsPanel extends JPanel {
 		statisticalInfo = info;
 		objectiveLabel.setText("Objetivo: Maximizar " + statisticalInfo.getUserInputData().getSkillToMax());
 		timeLabel.setText("Tiempo de cómputo: " + statisticalInfo.getTime() + "ms.");
-		budgetLabel.setText("Presupuesto: $" + statisticalInfo.getUserInputData().getBudget());
-		finalCostLabel.setText("Costo final: $" + statisticalInfo.getFinalCost());
+		budgetLabel.setText("Presupuesto: " + Utils.displayLikeMoney(statisticalInfo.getUserInputData().getBudget()));
+		finalCostLabel.setText("Costo final: " + Utils.displayLikeMoney(statisticalInfo.getFinalCost()));
 		totalProfitLabel.setText("Beneficio obtenido: " + statisticalInfo.getTotalProfit());
 		long dif = statisticalInfo.getUserInputData().getBudget() - statisticalInfo.getFinalCost();
-		difCostLabel.setText("Presupuesto sobrante: $"+ dif);
+		difCostLabel.setText("Presupuesto sobrante: "+ Utils.displayLikeMoney(dif));
 	}
 	
 	private void generatePanel() {
