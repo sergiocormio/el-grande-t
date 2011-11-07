@@ -72,4 +72,12 @@ public class Utils {
 		
 		return result;
 	}
+	
+	public static String getFileNameWithTxtExtension(String fileName){
+		String result = fileName;
+		if(!fileName.endsWith(".txt")){
+			result += ".txt";	
+		}
+		return result;
+	}
 }
