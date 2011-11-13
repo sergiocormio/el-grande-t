@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -18,7 +19,7 @@ import resources.ResourcesFactory;
 import model.Utils;
 import model.dto.ResultantTeam;
 
-public class ResultsPanel extends JPanel {
+public class ResultsPanel extends ImagePanel {
 
 	/**
 	 * 
@@ -32,6 +33,7 @@ public class ResultsPanel extends JPanel {
 	private StatisticsPanel statisticsPanel;
 
 	public ResultsPanel(){
+		super(new ImageIcon("src/resources/grandt1_930x625.jpg").getImage());
 		generatePanel();
 	}
 	
@@ -49,12 +51,14 @@ public class ResultsPanel extends JPanel {
 
 	private void addStatisticsPanel() {
 		statisticsPanel = new StatisticsPanel();
+		statisticsPanel.setOpaque(true);
 		this.add(statisticsPanel,BorderLayout.SOUTH);
 		
 	}
 
 	private void addToolBar() {
 		JPanel toolBarPanel = new JPanel(new FlowLayout());
+		toolBarPanel.setOpaque(false);
 		JButton openButton = new JButton("Abrir",ResourcesFactory.getOpenIcon());
 		fileChooser = new JFileChooser();
 		fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos de texto (.txt)","txt"));
@@ -109,6 +113,7 @@ public class ResultsPanel extends JPanel {
 
 	private void addSoccerFieldPanel() {
 		soccerFieldPanel = new SoccerFieldPanel();
+		soccerFieldPanel.setOpaque(false);
 		this.add(soccerFieldPanel,BorderLayout.CENTER);
 	}
 
