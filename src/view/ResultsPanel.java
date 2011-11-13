@@ -103,7 +103,7 @@ public class ResultsPanel extends ImagePanel {
 			}
 		});
 		toolBarPanel.add(saveButton);
-		fileNameTextField = new JTextField(25);
+		fileNameTextField = new JTextField(20);
 		fileNameTextField.setText("Seleccione un archivo de Resultados...");
 		//It is read only
 		fileNameTextField.setEditable(false);
