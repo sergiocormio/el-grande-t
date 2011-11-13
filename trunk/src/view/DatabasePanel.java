@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -10,6 +11,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JList;
@@ -36,7 +39,7 @@ import model.dto.Player.Position;
 import model.exceptions.ClubAlreadyExistsException;
 import model.exceptions.SkillAlreadyExistsException;
 
-public class DatabasePanel extends JPanel {
+public class DatabasePanel extends ImagePanel {
 
 	/**
 	 * 
@@ -60,6 +63,7 @@ public class DatabasePanel extends JPanel {
 	private JButton modifyPlayerButton;
 
 	public DatabasePanel() {
+		super(new ImageIcon("src/resources/grandt2_930x625.jpg").getImage());
 		generatePanel();
 	}
 
@@ -67,8 +71,10 @@ public class DatabasePanel extends JPanel {
 		this.setLayout(new BorderLayout());
 		addToolBar(); //Toolbar should place in NORTH of the main panel.
 		JPanel centerPanel = new JPanel(new BorderLayout());
+		centerPanel.setOpaque(false);
 		this.add(centerPanel, BorderLayout.CENTER);
 		JPanel centerNorthPanel = new JPanel(new FlowLayout());
+		centerNorthPanel.setOpaque(false);
 		centerPanel.add(centerNorthPanel,BorderLayout.NORTH);
 		addSkillsPanel(centerNorthPanel);
 		addTeamsPanel(centerNorthPanel);
@@ -87,7 +93,9 @@ public class DatabasePanel extends JPanel {
 	private void addPlayersPanel(JPanel parentPanel) {
 		// Grid Players Panel
 		playersTable = new JTable();
+		playersTable.setOpaque(false);
 		JScrollPane scrollPane = new JScrollPane(playersTable);
+		scrollPane.setOpaque(false);
 		playersTable.setFillsViewportHeight(true);
 		playersTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		playersTable.getSelectionModel().addListSelectionListener(
@@ -115,7 +123,10 @@ public class DatabasePanel extends JPanel {
 
 		// South players panel
 		JPanel playersToolPanel = new JPanel(new FlowLayout());
-		playersToolPanel.setBorder(new TitledBorder("Jugadores"));
+		playersToolPanel.setOpaque(false);
+		TitledBorder tb = new TitledBorder("Jugadores");
+		tb.setTitleColor(new Color(255,255,255));
+		playersToolPanel.setBorder(tb);
 		newPlayerButton = new JButton("Agregar",ResourcesFactory.getAddIcon());
 		newPlayerButton.setEnabled(false);
 		newPlayerButton.addActionListener(new ActionListener() {
@@ -189,7 +200,10 @@ public class DatabasePanel extends JPanel {
 
 	private void addSkillsPanel(JPanel parentPanel) {
 		JPanel skillsPanel = new JPanel(new FlowLayout());
-		skillsPanel.setBorder(new TitledBorder("Habilidades"));
+		skillsPanel.setOpaque(false);
+		TitledBorder tb = new TitledBorder("Habilidades");
+		tb.setTitleColor(new Color(255,255,255));
+		skillsPanel.setBorder(tb);
 		skillList = new JList(new Vector<String>()); // data has type Object[]
 		skillList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		skillList.setLayoutOrientation(JList.VERTICAL);
@@ -214,8 +228,14 @@ public class DatabasePanel extends JPanel {
 		JScrollPane listScroller = new JScrollPane(skillList);
 		listScroller.setPreferredSize(new Dimension(150, 80));
 		skillsPanel.add(listScroller);
+		
+		JPanel skillButtonPanel = new JPanel();
+		skillButtonPanel.setLayout(new BoxLayout(skillButtonPanel,BoxLayout.Y_AXIS));
+		skillButtonPanel.setOpaque(false);
+		
 		newSkillButton = new JButton("Agregar",ResourcesFactory.getAddIcon());
 		newSkillButton.setEnabled(false);
+		setButtonSize(newSkillButton);
 		newSkillButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -240,9 +260,10 @@ public class DatabasePanel extends JPanel {
 			}
 
 		});
-		skillsPanel.add(newSkillButton);
+		skillButtonPanel.add(newSkillButton);
 		modifySkillButton = new JButton("Modificar",ResourcesFactory.getEditIcon());
 		modifySkillButton.setEnabled(false);
+		setButtonSize(modifySkillButton);
 		modifySkillButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -265,9 +286,10 @@ public class DatabasePanel extends JPanel {
 
 			}
 		});
-		skillsPanel.add(modifySkillButton);
+		skillButtonPanel.add(modifySkillButton);
 		deleteSkillButton = new JButton("Eliminar",ResourcesFactory.getRemoveIcon());
 		deleteSkillButton.setEnabled(false);
+		setButtonSize(deleteSkillButton);
 		deleteSkillButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -286,13 +308,25 @@ public class DatabasePanel extends JPanel {
 
 			}
 		});
-		skillsPanel.add(deleteSkillButton);
+		skillButtonPanel.add(deleteSkillButton);
+		skillsPanel.add(skillButtonPanel);
 		parentPanel.add(skillsPanel);
+	}
+	
+	private void setButtonSize(JButton button){
+		Dimension size = new Dimension(120, 25);
+		button.setMinimumSize(size);
+		button.setMaximumSize(size);
+		button.setPreferredSize(size);
+		button.setSize(size);
 	}
 	
 	private void addTeamsPanel(JPanel parentPanel) {
 		JPanel teamsPanel = new JPanel(new FlowLayout());
-		teamsPanel.setBorder(new TitledBorder("Equipos"));
+		teamsPanel.setOpaque(false);
+		TitledBorder tb = new TitledBorder("Equipos");
+		tb.setTitleColor(new Color(255,255,255));
+		teamsPanel.setBorder(tb);
 		teamList = new JList(new Vector<String>()); // data has type Object[]
 		teamList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		teamList.setLayoutOrientation(JList.VERTICAL);
@@ -317,9 +351,14 @@ public class DatabasePanel extends JPanel {
 		JScrollPane listScroller = new JScrollPane(teamList);
 		listScroller.setPreferredSize(new Dimension(150, 80));
 		teamsPanel.add(listScroller);
+		
+		JPanel teamButtonPanel = new JPanel();
+		teamButtonPanel.setLayout(new BoxLayout(teamButtonPanel,BoxLayout.Y_AXIS));
+		teamButtonPanel.setOpaque(false);
 		//NEW TEAM BUTTON
 		newTeamButton = new JButton("Agregar",ResourcesFactory.getAddIcon());
 		newTeamButton.setEnabled(false);
+		setButtonSize(newTeamButton);
 		newTeamButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -341,10 +380,11 @@ public class DatabasePanel extends JPanel {
 			}
 
 		});
-		teamsPanel.add(newTeamButton);
+		teamButtonPanel.add(newTeamButton);
 		//MODIFY TEAM BUTTON
 		modifyTeamButton = new JButton("Modificar",ResourcesFactory.getEditIcon());
 		modifyTeamButton.setEnabled(false);
+		setButtonSize(modifyTeamButton);
 		modifyTeamButton.addActionListener(new ActionListener() {
 
 			@Override
@@ -366,11 +406,11 @@ public class DatabasePanel extends JPanel {
 
 			}
 		});
-		teamsPanel.add(modifyTeamButton);
+		teamButtonPanel.add(modifyTeamButton);
 		//DELETE TEAM BUTTON
-		//TODO: Definir que pasa si elimino un equipo, se eliminan los jugadores?
 		deleteTeamButton = new JButton("Eliminar",ResourcesFactory.getRemoveIcon());
 		deleteTeamButton.setEnabled(false);
+		setButtonSize(deleteTeamButton);
 		deleteTeamButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -387,29 +427,38 @@ public class DatabasePanel extends JPanel {
 
 			}
 		});
-		teamsPanel.add(deleteTeamButton);
+		teamButtonPanel.add(deleteTeamButton);
 		
+		teamsPanel.add(teamButtonPanel);
 		parentPanel.add(teamsPanel);
 	}
 
 	private void addToolBar() {
 		JPanel toolBarPanel = new JPanel(new FlowLayout());
+		toolBarPanel.setOpaque(false);
 		JButton newButton = new JButton("Nuevo",ResourcesFactory.getNewIcon());
 		newButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO: Ask if save first
-				try {
-					currentPlayersDataBase = new PlayersDataBase();
-					loadCurrentPlayersDataBase();
-					saveButton.setEnabled(true);
-					newSkillButton.setEnabled(true);
-					newTeamButton.setEnabled(true);
-					newPlayerButton.setEnabled(true);
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(ElGrandeT.mainJFrame, e.getMessage(),
-							"Error", JOptionPane.ERROR_MESSAGE);
+				int result = JOptionPane.YES_OPTION;
+				if(saveButton.isEnabled()){
+					result = JOptionPane.showConfirmDialog(ElGrandeT.mainJFrame,
+							"¿Está seguro que desea crear una nueva planilla de Jugadores?\n(Se perderán los datos que no fueron salvados)",
+							"Nueva Planilla de Jugadores", JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+				}
+				if (result == JOptionPane.YES_OPTION) {
+					try {
+						currentPlayersDataBase = new PlayersDataBase();
+						loadCurrentPlayersDataBase();
+						saveButton.setEnabled(true);
+						newSkillButton.setEnabled(true);
+						newTeamButton.setEnabled(true);
+						newPlayerButton.setEnabled(true);
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(ElGrandeT.mainJFrame, e.getMessage(),
+								"Error", JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 
@@ -472,8 +521,7 @@ public class DatabasePanel extends JPanel {
 		});
 		toolBarPanel.add(saveButton);
 		fileNameTextField = new JTextField(30);
-		fileNameTextField
-				.setText("Seleccione un archivo de Base de Datos de Jugadores...");
+		fileNameTextField.setText("Seleccione un archivo de Jugadores...");
 		// It is read only
 		fileNameTextField.setEditable(false);
 		toolBarPanel.add(fileNameTextField);

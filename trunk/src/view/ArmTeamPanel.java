@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,7 +59,7 @@ public class ArmTeamPanel extends JPanel {
 
 	private void generatePanel() {
 		this.setLayout(new BorderLayout());
-		JPanel inputPanel = new JPanel();
+		ImagePanel inputPanel = new ImagePanel(new ImageIcon("src/resources/grandt3_930x625.jpg").getImage());
 		inputPanel.setLayout(new BoxLayout(inputPanel,BoxLayout.Y_AXIS));
 		
 		//adds lines
@@ -72,25 +73,27 @@ public class ArmTeamPanel extends JPanel {
 		
 		addArmTeamButton(inputPanel);
 		inputPanel.setAlignmentY(CENTER_ALIGNMENT);
-		//inputPanel.setBorder(BorderFactory.createTitledBorder("Generación de Equipos"));
-		this.setBorder(BorderFactory.createEmptyBorder(100,10,100,10));
+		inputPanel.setBorder(BorderFactory.createEmptyBorder(10,10,80,10));
 		this.add(inputPanel,BorderLayout.CENTER);
 	}
 
 	private void addImageLine(JPanel parentPanel) {
 		JLabel label = new JLabel();
-		label.setIcon(new ImageIcon("src/resources/mago128.png"));
+		label.setIcon(new ImageIcon("src/resources/mr-t.png"));
 		label.setAlignmentX(Component.CENTER_ALIGNMENT);
 		parentPanel.add(label);
+		parentPanel.add(new JLabel(" "));
 	}
 	
 	private void addDataLine(JPanel parentPanel) {
 		JPanel dataPanel = new JPanel();
+		dataPanel.setOpaque(false);
 		JLabel dataLabel = new JLabel("Datos:");
+		dataLabel.setForeground(new Color(0));
 		dataPanel.add(dataLabel);
-		dataFileNameTextField = new JTextField(25);
+		dataFileNameTextField = new JTextField(20);
 		dataLabel.setLabelFor(dataFileNameTextField);
-		dataFileNameTextField.setText("Seleccione un archivo de Base de Datos...");
+		dataFileNameTextField.setText("Seleccione un archivo de Jugadores...");
 		//dataFileNameTextField is read only
 		dataFileNameTextField.setEditable(false);
 		dataPanel.add(dataFileNameTextField);
@@ -132,7 +135,9 @@ public class ArmTeamPanel extends JPanel {
 
 	private void addBudgetLine(JPanel parentPanel){
 		JPanel budgetPanel = new JPanel();
+		budgetPanel.setOpaque(false);
 		JLabel budgetLabel = new JLabel("Presupuesto: $");
+		budgetLabel.setForeground(new Color(0));
 		budgetPanel.add(budgetLabel);
 		SpinnerModel budgetModel = new SpinnerNumberModel(IGrandeTService.DEFAULT_BUDGET, 1000, Integer.MAX_VALUE, 500000);
 		budgetSpinner = new JSpinner();
@@ -144,7 +149,9 @@ public class ArmTeamPanel extends JPanel {
 	
 	private void addSkillToMaxLine(JPanel parentPanel){
 		JPanel skillToMaxPanel = new JPanel();
+		skillToMaxPanel.setOpaque(false);
 		JLabel skilToMaxLabel = new JLabel("Objetivo a Maximizar:");
+		skilToMaxLabel.setForeground(new Color(0));
 		skillToMaxPanel.add(skilToMaxLabel);
 		skillToMaxCombo = new JComboBox();
 		skilToMaxLabel.setLabelFor(skillToMaxCombo);
@@ -155,7 +162,9 @@ public class ArmTeamPanel extends JPanel {
 
 	private void addFormationLine(JPanel parentPanel){
 		JPanel formationPanel = new JPanel();
+		formationPanel.setOpaque(false);
 		JLabel formationLabel = new JLabel("Formación:");
+		formationLabel.setForeground(new Color(0));
 		formationPanel.add(formationLabel);
 		formationCombo = new JComboBox(IGrandeTService.FORMATION_LIST);
 		formationLabel.setLabelFor(formationCombo);
@@ -164,9 +173,10 @@ public class ArmTeamPanel extends JPanel {
 	}
 	
 	private void addNumberOfPlayersLine(JPanel parentPanel){
-		
 		JPanel numberOfPlayersPanel = new JPanel();
+		numberOfPlayersPanel.setOpaque(false);
 		JLabel numberOfPlayersLabel = new JLabel("Cantidad a Seleccionar:");
+		numberOfPlayersLabel.setForeground(new Color(0));
 		numberOfPlayersPanel.add(numberOfPlayersLabel);
 		numberOfPlayersCombo = new JComboBox(IGrandeTService.NUMBER_OF_PLAYERS_LIST);
 		numberOfPlayersPanel.add(numberOfPlayersCombo);
@@ -175,8 +185,9 @@ public class ArmTeamPanel extends JPanel {
 	
 	private void addNumberOfPlayersPerClubLine(JPanel parentPanel){
 		JPanel numberPanel = new JPanel();
-		
+		numberPanel.setOpaque(false);
 		JLabel numberPerClubLabel = new JLabel("Cantidad de Jugadores por Club:");
+		numberPerClubLabel.setForeground(new Color(0));
 		
 		SpinnerModel numberPerClubModel = new SpinnerNumberModel(IGrandeTService.DEFAULT_NUMBER_OF_PLAYERS_PER_CLUB, 1, 22, 1);
 		numberOfPlayersPerClubSpinner = new JSpinner();
