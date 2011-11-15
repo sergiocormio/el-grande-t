@@ -576,7 +576,8 @@ public class DatabasePanel extends ImagePanel {
 
 		List<String> skills = currentPlayersDataBase.getSkillList();
 		for (int i = minQuantityOfHeaders; i < p.getSkills().size() + minQuantityOfHeaders; i++) {
-			result[i] = p.getSkill(skills.get(i - minQuantityOfHeaders)).getValue();
+			String skillName = skills.get(i - minQuantityOfHeaders);
+			result[i] = p.getSkill(skillName).getValue();
 		}
 
 		return result;

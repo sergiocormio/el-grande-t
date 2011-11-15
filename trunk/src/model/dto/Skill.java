@@ -32,4 +32,12 @@ public class Skill {
 		Skill otherSkill = (Skill)obj;
 		return (otherSkill.name.compareToIgnoreCase(this.name)==0);
 	}
+	
+	@Override
+	protected Skill clone(){
+		Skill newSkill = new Skill();
+		newSkill.setName(this.getName());
+		newSkill.setValue(this.getValue());
+		return newSkill;
+	}
 }
