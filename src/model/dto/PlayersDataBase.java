@@ -65,7 +65,8 @@ public class PlayersDataBase implements Fileable, Serializable {
 		headers.add(s.getName());
 		
 		for(Player p : players){
-			p.addSkill(s);
+			//Doesn't add the same skill instance... It is cloned.
+			p.addSkill(s.clone());
 		}
 		
 	}
