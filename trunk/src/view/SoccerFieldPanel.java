@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import model.Utils;
 import model.dto.Player;
 import model.dto.ResultantTeam;
 
@@ -41,7 +42,7 @@ public class SoccerFieldPanel extends JPanel {
 					"src/resources/Player Icon 16x30.png"), JLabel.CENTER);
 			label.setVerticalTextPosition(JLabel.BOTTOM);
 			label.setHorizontalTextPosition(JLabel.CENTER);
-			label.setToolTipText("<html> <b>Precio: </b> $" + p.getPrice() + "<br/><b>" + skillToMax + "</b>: "+ p.getSkill(skillToMax).getValue() + "<br/><b>" + "Equipo" + "</b>: " + p.getClub() + "</html>");
+			label.setToolTipText("<html> <b>Precio: </b> " + Utils.displayLikeMoney(p.getPrice()) + "<br/><b>" + skillToMax + "</b>: "+ p.getSkill(skillToMax).getValue() + "<br/><b>" + "Equipo" + "</b>: " + p.getClub() + "</html>");
 			switch (p.getPosition()) {
 			case ARQ:
 				label.setIcon(new ImageIcon(
@@ -78,7 +79,7 @@ public class SoccerFieldPanel extends JPanel {
 			JLabel label = new JLabel(p.getName());
 			label.setVerticalTextPosition(JLabel.BOTTOM);
 			label.setHorizontalTextPosition(JLabel.CENTER);
-			label.setToolTipText("<html> <b>Precio: </b> $" + p.getPrice() + "<br/><b>" + skillToMax + "</b>: "+ p.getSkill(skillToMax).getValue() + "<br/><b>" + "Equipo" + "</b>: " + p.getClub() +  "<br/><b>" + "Posición" + "</b>: " + p.getPosition() +"</html>");
+			label.setToolTipText("<html> <b>Precio: </b> " + Utils.displayLikeMoney(p.getPrice()) + "<br/><b>" + skillToMax + "</b>: "+ p.getSkill(skillToMax).getValue() + "<br/><b>" + "Equipo" + "</b>: " + p.getClub() +  "<br/><b>" + "Posición" + "</b>: " + p.getPosition() +"</html>");
 			substitutesPanel.add(label);
 		}
 	}
